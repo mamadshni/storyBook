@@ -1,8 +1,7 @@
-import { ButtonSize } from './../button/button.component';
 import { CardComponent, CardSize } from './card.component';
 import { Story } from '@storybook/angular';
 import { ButtonComponent } from '../button/button.component';
-import { DefaultStoryConfig } from 'src/stories/util';
+import { DefaultStoryConfig, enumMemberAsLabel, enumMembersAsLabels } from 'src/stories/util';
 
 
 export default DefaultStoryConfig({
@@ -14,7 +13,7 @@ export default DefaultStoryConfig({
       name: 'content',
       type: 'string',
       defaultValue: 'Lorem ipsum dolor sit',
-      description: 'this is content of the card with ng content',
+      description: 'this is arbitrary content projected with ng content',
       category: 'ng-content',
       control: 'text',
     },
@@ -22,41 +21,24 @@ export default DefaultStoryConfig({
       name: 'title',
       type: 'string',
       defaultValue: 'title',
-      description: 'this input represents title of Card',
-      category: 'inputs',
       control: 'text',
     },
     {
       name: 'isCircleImage',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'this input changes card image from rectangle to circle',
-      category: 'inputs',
-      control: 'boolean',
+      control: 'boolean'
     },
     {
       name: 'size',
       type: 'CardSize',
-      defaultValue: CardSize.Normal,
-      description: 'this input changes card size',
+      defaultValue: enumMemberAsLabel(CardSize, CardSize.Big, 'CardSize'),
       category: 'inputs',
-      options: [CardSize.Small, CardSize.Normal, CardSize.Big],
-      control: 'select',
+      options: enumMembersAsLabels(CardSize, 'CardSize'),
+      control: 'radio',
     },
     {
       name: 'onClick',
-      description: 'this event calls on button card click'
-    },
-    {
-      name: 'cardClicked',
-      disable: true
-    },
-    {
-      name: 'buttonSize',
-      disable: true
-    },
-    {
-      name: 'cardSize',
       disable: true
     },
   ]

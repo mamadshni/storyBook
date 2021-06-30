@@ -19,15 +19,27 @@ export enum CardSize {
 })
 export class CardComponent {
 
+  /**
+   * The card title
+   */
   @Input() title: string;
+  /**
+   * The size of the card
+   */
   @Input() size: CardSize = CardSize.Normal;
 
+  /**
+   * Whether the card image should be displayed as a circle; if false, a rectangle image is used
+   */
   @Input() isCircleImage = false;
 
+  /**
+   * event emitted whenever the action button of the card is clicked
+   */
   @Output() cardClicked = new EventEmitter<void>();
 
-  readonly buttonSize = ButtonSize;
-  readonly cardSize = CardSize;
+  private readonly buttonSize = ButtonSize;
+  private readonly cardSize = CardSize;
 
   constructor() { }
 

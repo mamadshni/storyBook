@@ -92,10 +92,10 @@
         },
         {
             "name": "DefaultConfigInterface",
-            "id": "interface-DefaultConfigInterface-f31b10e2a11f3c963dcb5e38c1fd7354",
-            "file": "src/stories/utill.ts",
+            "id": "interface-DefaultConfigInterface-890982991650882d7daf0c909ae92703",
+            "file": "src/stories/util.ts",
             "type": "interface",
-            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties ?: PropertiesInterface[];\r\n}\r\n\r\n\r\n\r\nexport function DefaultStoryConfig(configs: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    configs.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: configs.title,\r\n        component: configs.component,\r\n        decorators: [\r\n          moduleMetadata({\r\n            declarations: configs.declarations,\r\n            imports: configs.imports\r\n          }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties?: PropertiesInterface[];\r\n}\r\n\r\nenum Test {\r\n    Lol,\r\n    Rofl\r\n}\r\n\r\nexport function DefaultStoryConfig(config: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    console.log(enumMemberAsLabel(Test, Test.Lol, 'Test'));\r\n\r\n    config.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n//https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string) {\r\n    //the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\nexport function enumMemberAsLabel<T extends {[index:string]:string | number}>(myEnum: T, enumValue: string | number, enumName?: string) {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) return `${enumName}.${enumKey}`;\r\n    return enumKey;\r\n}\r\n\r\n//https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index:string]:string | number}>(myEnum:T, enumValue: string | number):keyof T|null {\r\n    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}",
             "properties": [
                 {
                     "name": "component",
@@ -146,10 +146,10 @@
         },
         {
             "name": "PropertiesInterface",
-            "id": "interface-PropertiesInterface-f31b10e2a11f3c963dcb5e38c1fd7354",
-            "file": "src/stories/utill.ts",
+            "id": "interface-PropertiesInterface-890982991650882d7daf0c909ae92703",
+            "file": "src/stories/util.ts",
             "type": "interface",
-            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties ?: PropertiesInterface[];\r\n}\r\n\r\n\r\n\r\nexport function DefaultStoryConfig(configs: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    configs.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: configs.title,\r\n        component: configs.component,\r\n        decorators: [\r\n          moduleMetadata({\r\n            declarations: configs.declarations,\r\n            imports: configs.imports\r\n          }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties?: PropertiesInterface[];\r\n}\r\n\r\nenum Test {\r\n    Lol,\r\n    Rofl\r\n}\r\n\r\nexport function DefaultStoryConfig(config: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    console.log(enumMemberAsLabel(Test, Test.Lol, 'Test'));\r\n\r\n    config.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n//https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string) {\r\n    //the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\nexport function enumMemberAsLabel<T extends {[index:string]:string | number}>(myEnum: T, enumValue: string | number, enumName?: string) {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) return `${enumName}.${enumKey}`;\r\n    return enumKey;\r\n}\r\n\r\n//https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index:string]:string | number}>(myEnum:T, enumValue: string | number):keyof T|null {\r\n    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}",
             "properties": [
                 {
                     "name": "category",
@@ -245,10 +245,10 @@
     "classes": [
         {
             "name": "AppPage",
-            "id": "class-AppPage-ee2067dfb1c303f41003aea7d82d51e0",
+            "id": "class-AppPage-e3ea1f4631d62652a5623d3ab757b2fc",
             "file": "e2e/src/app.po.ts",
             "type": "class",
-            "sourceCode": "import { browser, by, element } from 'protractor';\n\nexport class AppPage {\n  async navigateTo(): Promise<unknown> {\n    return browser.get(browser.baseUrl);\n  }\n\n  async getTitleText(): Promise<string> {\n    return element(by.css('app-root .content span')).getText();\n  }\n}\n",
+            "sourceCode": "import { browser, by, element } from 'protractor';\r\n\r\nexport class AppPage {\r\n  async navigateTo(): Promise<unknown> {\r\n    return browser.get(browser.baseUrl);\r\n  }\r\n\r\n  async getTitleText(): Promise<string> {\r\n    return element(by.css('app-root .content span')).getText();\r\n  }\r\n}\r\n",
             "properties": [],
             "methods": [
                 {
@@ -285,7 +285,7 @@
     "components": [
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-58080be959197e7db6611744dc77c238",
+            "id": "component-AppComponent-d8111cd7a2dde25a4f47d74c15c83f41",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -330,7 +330,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { CardSize } from './card/card.component';\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent {\n\n  readonly cardSize = CardSize;\n  title = 'storyBook';\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { CardSize } from './card/card.component';\r\n\r\n@Component({\r\n  selector: 'app-root',\r\n  templateUrl: './app.component.html',\r\n  styleUrls: ['./app.component.scss']\r\n})\r\nexport class AppComponent {\r\n\r\n  readonly cardSize = CardSize;\r\n  title = 'storyBook';\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -339,11 +339,11 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<app-card\n  [title]=\"'title'\"\n  [size]= \"cardSize.Normal\"\n  [isCircleImage]=\"false\">\nLorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, veniam distinctio. Officiis possimus cumque repellendus voluptas praesentium accusamus perspiciatis ipsa?</app-card>"
+            "templateData": "<app-card\r\n  [title]=\"'title'\"\r\n  [size]= \"cardSize.Normal\"\r\n  [isCircleImage]=\"false\">\r\nLorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, veniam distinctio. Officiis possimus cumque repellendus voluptas praesentium accusamus perspiciatis ipsa?</app-card>"
         },
         {
             "name": "ButtonComponent",
-            "id": "component-ButtonComponent-6c2873d16c5971ae3a6a25c862560ad3",
+            "id": "component-ButtonComponent-1ce8940942e7126f415cac73653667a4",
             "file": "src/app/button/button.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -364,17 +364,20 @@
                 {
                     "name": "isPrimary",
                     "defaultValue": "false",
-                    "line": 25
+                    "description": "<p>if this is true, the button is colored in the primary color</p>\n",
+                    "line": 27
                 },
                 {
                     "name": "label",
                     "defaultValue": "'Button'",
-                    "line": 27
+                    "description": "<p>The text that should be displayed on the button</p>\n",
+                    "line": 35
                 },
                 {
                     "name": "size",
                     "defaultValue": "ButtonSize.Normal",
-                    "line": 26,
+                    "description": "<p>The size of the button. Can be small, medium or large</p>\n",
+                    "line": 31,
                     "type": "ButtonSize"
                 }
             ],
@@ -382,23 +385,12 @@
                 {
                     "name": "clicked",
                     "defaultValue": "new EventEmitter<void>()",
-                    "line": 29,
+                    "description": "<p>Click handler</p>\n",
+                    "line": 40,
                     "type": "EventEmitter"
                 }
             ],
-            "propertiesClass": [
-                {
-                    "name": "buttonSize",
-                    "defaultValue": "ButtonSize",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 31,
-                    "modifierKind": [
-                        132
-                    ]
-                }
-            ],
+            "propertiesClass": [],
             "methodsClass": [
                 {
                     "name": "onClick",
@@ -406,7 +398,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 39
+                    "line": 50
                 }
             ],
             "hostBindings": [],
@@ -414,7 +406,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';\n\n\nexport enum ButtonSize {\n  Big = 'big',\n  Normal = 'normal',\n  Small = 'small'\n}\n\n@Component({\n  selector: 'app-button',\n  templateUrl: './button.component.html',\n  styleUrls: ['./button.component.scss'],\n  // tslint:disable-next-line:no-host-metadata-property\n  host: {\n    '[class.primary]': 'isPrimary',\n    '[class.big]': 'size === buttonSize.Big',\n    '[class.small]': 'size === buttonSize.Small',\n    '(click)': 'onClick()'\n  }\n})\n\nexport class ButtonComponent implements OnInit {\n\n  @Input() isPrimary = false;\n  @Input() size: ButtonSize = ButtonSize.Normal;\n  @Input() label = 'Button';\n\n  @Output() clicked = new EventEmitter<void>();\n\n  readonly buttonSize = ButtonSize;\n\n  constructor() { }\n\n  ngOnInit(): void {\n    console.log(this.size);\n  }\n\n  onClick(): void {\n    this.clicked.emit();\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';\r\n\r\n\r\nexport enum ButtonSize {\r\n  Big = 'big',\r\n  Normal = 'normal',\r\n  Small = 'small'\r\n}\r\n\r\n@Component({\r\n  selector: 'app-button',\r\n  templateUrl: './button.component.html',\r\n  styleUrls: ['./button.component.scss'],\r\n  // tslint:disable-next-line:no-host-metadata-property\r\n  host: {\r\n    '[class.primary]': 'isPrimary',\r\n    '[class.big]': 'size === buttonSize.Big',\r\n    '[class.small]': 'size === buttonSize.Small',\r\n    '(click)': 'onClick()'\r\n  }\r\n})\r\n\r\nexport class ButtonComponent implements OnInit {\r\n  /**\r\n   * if this is true, the button is colored in the primary color\r\n   */\r\n  @Input() isPrimary = false;\r\n  /**\r\n   * The size of the button. Can be small, medium or large\r\n   */\r\n  @Input() size: ButtonSize = ButtonSize.Normal;\r\n  /**\r\n   * The text that should be displayed on the button\r\n   */\r\n  @Input() label = 'Button';\r\n\r\n  /**\r\n   * Click handler\r\n   */\r\n  @Output() clicked = new EventEmitter<void>();\r\n\r\n  private readonly buttonSize = ButtonSize;\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n    console.log(this.size);\r\n  }\r\n\r\n  onClick(): void {\r\n    this.clicked.emit();\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -427,7 +419,7 @@
                 "name": "constructor",
                 "description": "",
                 "args": [],
-                "line": 31
+                "line": 42
             },
             "implements": [
                 "OnInit"
@@ -436,7 +428,7 @@
         },
         {
             "name": "CardComponent",
-            "id": "component-CardComponent-cc94a99cb628dfe26b0a52d58b9ff375",
+            "id": "component-CardComponent-5c27c97f77ed7c2735cdbb01d3a815ed",
             "file": "src/app/card/card.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -457,17 +449,20 @@
                 {
                     "name": "isCircleImage",
                     "defaultValue": "false",
-                    "line": 25
+                    "description": "<p>Whether the card&#39;s image should be displayed as a circle; if false, a rectangle image is used</p>\n",
+                    "line": 34
                 },
                 {
                     "name": "size",
                     "defaultValue": "CardSize.Normal",
-                    "line": 23,
+                    "description": "<p>The size of the card</p>\n",
+                    "line": 29,
                     "type": "CardSize"
                 },
                 {
                     "name": "title",
-                    "line": 22,
+                    "description": "<p>The card title</p>\n",
+                    "line": 25,
                     "type": "string"
                 }
             ],
@@ -475,34 +470,12 @@
                 {
                     "name": "cardClicked",
                     "defaultValue": "new EventEmitter<void>()",
-                    "line": 27,
+                    "description": "<p>event emitted whenever the card&#39;s action button is clicked</p>\n",
+                    "line": 39,
                     "type": "EventEmitter"
                 }
             ],
-            "propertiesClass": [
-                {
-                    "name": "buttonSize",
-                    "defaultValue": "ButtonSize",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 29,
-                    "modifierKind": [
-                        132
-                    ]
-                },
-                {
-                    "name": "cardSize",
-                    "defaultValue": "CardSize",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 30,
-                    "modifierKind": [
-                        132
-                    ]
-                }
-            ],
+            "propertiesClass": [],
             "methodsClass": [
                 {
                     "name": "onClick",
@@ -510,7 +483,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 34
+                    "line": 46
                 }
             ],
             "hostBindings": [],
@@ -518,7 +491,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { ButtonSize } from './../button/button.component';\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\n\nexport enum CardSize {\n  Big = 'big',\n  Normal = 'normal',\n  Small = 'small'\n}\n\n@Component({\n  selector: 'app-card',\n  templateUrl: './card.component.html',\n  styleUrls: ['./card.component.scss'],\n  // tslint:disable-next-line:no-host-metadata-property\n  host : {\n    '[class.big]': 'size === buttonSize.Big',\n    '[class.small]': 'size === buttonSize.Small',\n  }\n})\nexport class CardComponent {\n\n  @Input() title: string;\n  @Input() size: CardSize = CardSize.Normal;\n\n  @Input() isCircleImage = false;\n\n  @Output() cardClicked = new EventEmitter<void>();\n\n  readonly buttonSize = ButtonSize;\n  readonly cardSize = CardSize;\n\n  constructor() { }\n\n  onClick(): void {\n    this.cardClicked.emit();\n  }\n\n}\n",
+            "sourceCode": "import { ButtonSize } from './../button/button.component';\r\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\r\n\r\nexport enum CardSize {\r\n  Big = 'big',\r\n  Normal = 'normal',\r\n  Small = 'small'\r\n}\r\n\r\n@Component({\r\n  selector: 'app-card',\r\n  templateUrl: './card.component.html',\r\n  styleUrls: ['./card.component.scss'],\r\n  // tslint:disable-next-line:no-host-metadata-property\r\n  host : {\r\n    '[class.big]': 'size === buttonSize.Big',\r\n    '[class.small]': 'size === buttonSize.Small',\r\n  }\r\n})\r\nexport class CardComponent {\r\n\r\n  /**\r\n   * The card title\r\n   */\r\n  @Input() title: string;\r\n  /**\r\n   * The size of the card\r\n   */\r\n  @Input() size: CardSize = CardSize.Normal;\r\n\r\n  /**\r\n   * Whether the card's image should be displayed as a circle; if false, a rectangle image is used\r\n   */\r\n  @Input() isCircleImage = false;\r\n\r\n  /**\r\n   * event emitted whenever the card's action button is clicked\r\n   */\r\n  @Output() cardClicked = new EventEmitter<void>();\r\n\r\n  private readonly buttonSize = ButtonSize;\r\n  private readonly cardSize = CardSize;\r\n\r\n  constructor() { }\r\n\r\n  onClick(): void {\r\n    this.cardClicked.emit();\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -531,9 +504,9 @@
                 "name": "constructor",
                 "description": "",
                 "args": [],
-                "line": 30
+                "line": 42
             },
-            "templateData": "\n<img class=\"img\" src=\"https://cdn.wallpaperjam.com/static/images/m/d6/6f/d66f68e5f47e64427ee0cf155a6f918959491a7a.jpg\" [class.circle-image]= 'isCircleImage'>\n\n<h4 class=\"title\">{{title}}</h4>\n\n<p class=\"dis\">\n    <ng-content></ng-content> \n</p>\n\n<app-button\n  class=\"button\"\n  [isPrimary] = \"false\"\n  [size] = \"buttonSize.Small\"\n  [label] = \"'button'\"\n  (clicked) = \"onClick()\"></app-button>\n\n"
+            "templateData": "\r\n<img class=\"img\" src=\"https://cdn.wallpaperjam.com/static/images/m/d6/6f/d66f68e5f47e64427ee0cf155a6f918959491a7a.jpg\" [class.circle-image]= 'isCircleImage'>\r\n\r\n<h4 class=\"title\">{{title}}</h4>\r\n\r\n<p class=\"dis\">\r\n    <ng-content></ng-content> \r\n</p>\r\n\r\n<app-button\r\n  class=\"button\"\r\n  [isPrimary] = \"false\"\r\n  [size] = \"buttonSize.Small\"\r\n  [label] = \"'button'\"\r\n  (clicked) = \"onClick()\"></app-button>\r\n\r\n"
         }
     ],
     "modules": [
@@ -619,17 +592,17 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.prod.ts",
+                "file": "src/environments/environment.ts",
                 "type": "object",
-                "defaultValue": "{\n  production: true\n}"
+                "defaultValue": "{\r\n  production: false\r\n}"
             },
             {
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.ts",
+                "file": "src/environments/environment.prod.ts",
                 "type": "object",
-                "defaultValue": "{\n  production: false\n}"
+                "defaultValue": "{\r\n  production: true\r\n}"
             },
             {
                 "name": "Normal",
@@ -734,19 +707,122 @@
             },
             {
                 "name": "DefaultStoryConfig",
-                "file": "src/stories/utill.ts",
+                "file": "src/stories/util.ts",
                 "ctype": "miscellaneous",
                 "subtype": "function",
                 "description": "",
                 "args": [
                     {
-                        "name": "configs"
+                        "name": "config"
                     }
                 ],
                 "returnType": "Meta",
                 "jsdoctags": [
                     {
-                        "name": "configs",
+                        "name": "config",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "enumMemberAsLabel",
+                "file": "src/stories/util.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "myEnum"
+                    },
+                    {
+                        "name": "enumValue"
+                    },
+                    {
+                        "name": "enumName",
+                        "optional": true
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "myEnum",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "enumValue",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "enumName",
+                        "optional": true,
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "enumMembersAsLabels",
+                "file": "src/stories/util.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "someEnum",
+                        "type": "any"
+                    },
+                    {
+                        "name": "enumName",
+                        "optional": true
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "someEnum",
+                        "type": "any",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "enumName",
+                        "optional": true,
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "getEnumKeyByEnumValue",
+                "file": "src/stories/util.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "myEnum"
+                    },
+                    {
+                        "name": "enumValue"
+                    }
+                ],
+                "returnType": " | null",
+                "jsdoctags": [
+                    {
+                        "name": "myEnum",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "enumValue",
                         "tagName": {
                             "text": "param"
                         }
@@ -760,7 +836,7 @@
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "\"array\" | \"boolean\" | \"number\" | \"range\" | \"object\" | \"radio\" | \"inline-radio\" | \"check\" | \"\tinline-check\" | \"select\" | \"multi-select\" | \"text\" | \"color\" | \"date\"",
-                "file": "src/stories/utill.ts",
+                "file": "src/stories/util.ts",
                 "description": "",
                 "kind": 168
             }
@@ -807,6 +883,21 @@
                 "subtype": "enum",
                 "description": "",
                 "file": "src/app/card/card.component.ts"
+            },
+            {
+                "name": "Test",
+                "childs": [
+                    {
+                        "name": "Lol"
+                    },
+                    {
+                        "name": "Rofl"
+                    }
+                ],
+                "ctype": "miscellaneous",
+                "subtype": "enum",
+                "description": "",
+                "file": "src/stories/util.ts"
             }
         ],
         "groupedVariables": {
@@ -927,16 +1018,6 @@
                     "type": "literal type"
                 }
             ],
-            "src/environments/environment.prod.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.prod.ts",
-                    "type": "object",
-                    "defaultValue": "{\n  production: true\n}"
-                }
-            ],
             "src/environments/environment.ts": [
                 {
                     "name": "environment",
@@ -944,7 +1025,17 @@
                     "subtype": "variable",
                     "file": "src/environments/environment.ts",
                     "type": "object",
-                    "defaultValue": "{\n  production: false\n}"
+                    "defaultValue": "{\r\n  production: false\r\n}"
+                }
+            ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "type": "object",
+                    "defaultValue": "{\r\n  production: true\r\n}"
                 }
             ]
         },
@@ -971,22 +1062,125 @@
                     ]
                 }
             ],
-            "src/stories/utill.ts": [
+            "src/stories/util.ts": [
                 {
                     "name": "DefaultStoryConfig",
-                    "file": "src/stories/utill.ts",
+                    "file": "src/stories/util.ts",
                     "ctype": "miscellaneous",
                     "subtype": "function",
                     "description": "",
                     "args": [
                         {
-                            "name": "configs"
+                            "name": "config"
                         }
                     ],
                     "returnType": "Meta",
                     "jsdoctags": [
                         {
-                            "name": "configs",
+                            "name": "config",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "enumMemberAsLabel",
+                    "file": "src/stories/util.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "myEnum"
+                        },
+                        {
+                            "name": "enumValue"
+                        },
+                        {
+                            "name": "enumName",
+                            "optional": true
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "myEnum",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "enumValue",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "enumName",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "enumMembersAsLabels",
+                    "file": "src/stories/util.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "someEnum",
+                            "type": "any"
+                        },
+                        {
+                            "name": "enumName",
+                            "optional": true
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "someEnum",
+                            "type": "any",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "enumName",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getEnumKeyByEnumValue",
+                    "file": "src/stories/util.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "myEnum"
+                        },
+                        {
+                            "name": "enumValue"
+                        }
+                    ],
+                    "returnType": " | null",
+                    "jsdoctags": [
+                        {
+                            "name": "myEnum",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "enumValue",
                             "tagName": {
                                 "text": "param"
                             }
@@ -1041,16 +1235,33 @@
                     "description": "",
                     "file": "src/app/card/card.component.ts"
                 }
+            ],
+            "src/stories/util.ts": [
+                {
+                    "name": "Test",
+                    "childs": [
+                        {
+                            "name": "Lol"
+                        },
+                        {
+                            "name": "Rofl"
+                        }
+                    ],
+                    "ctype": "miscellaneous",
+                    "subtype": "enum",
+                    "description": "",
+                    "file": "src/stories/util.ts"
+                }
             ]
         },
         "groupedTypeAliases": {
-            "src/stories/utill.ts": [
+            "src/stories/util.ts": [
                 {
                     "name": "ControlTypeInterface",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
                     "rawtype": "\"array\" | \"boolean\" | \"number\" | \"range\" | \"object\" | \"radio\" | \"inline-radio\" | \"check\" | \"\tinline-check\" | \"select\" | \"multi-select\" | \"text\" | \"color\" | \"date\"",
-                    "file": "src/stories/utill.ts",
+                    "file": "src/stories/util.ts",
                     "description": "",
                     "kind": 168
                 }
@@ -1059,7 +1270,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 0,
+        "count": 4,
         "status": "low",
         "files": [
             {
@@ -1145,9 +1356,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "ButtonComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/8",
-                "status": "low"
+                "coveragePercent": 57,
+                "coverageCount": "4/7",
+                "status": "good"
             },
             {
                 "filePath": "src/app/card/card.component.stories.ts",
@@ -1214,9 +1425,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "CardComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/9",
-                "status": "low"
+                "coveragePercent": 57,
+                "coverageCount": "4/7",
+                "status": "good"
             },
             {
                 "filePath": "src/environments/environment.prod.ts",
@@ -1257,7 +1468,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/stories/utill.ts",
+                "filePath": "src/stories/util.ts",
                 "type": "interface",
                 "linktype": "interface",
                 "name": "DefaultConfigInterface",
@@ -1266,7 +1477,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/stories/utill.ts",
+                "filePath": "src/stories/util.ts",
                 "type": "interface",
                 "linktype": "interface",
                 "name": "PropertiesInterface",
@@ -1275,10 +1486,37 @@
                 "status": "low"
             },
             {
-                "filePath": "src/stories/utill.ts",
+                "filePath": "src/stories/util.ts",
                 "type": "function",
                 "linksubtype": "function",
                 "name": "DefaultStoryConfig",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "enumMemberAsLabel",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "enumMembersAsLabels",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "getEnumKeyByEnumValue",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

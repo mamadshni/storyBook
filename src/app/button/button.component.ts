@@ -21,14 +21,25 @@ export enum ButtonSize {
 })
 
 export class ButtonComponent implements OnInit {
-
+  /**
+   * if this is true, the button is colored in the primary color
+   */
   @Input() isPrimary = false;
+  /**
+   * The size of the button. Can be small, medium or large
+   */
   @Input() size: ButtonSize = ButtonSize.Normal;
+  /**
+   * The text that should be displayed on the button
+   */
   @Input() label = 'Button';
 
+  /**
+   * Click handler
+   */
   @Output() clicked = new EventEmitter<void>();
 
-  readonly buttonSize = ButtonSize;
+  private readonly buttonSize = ButtonSize;
 
   constructor() { }
 
