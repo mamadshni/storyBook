@@ -1,78 +1,66 @@
+import { ButtonSize } from './../button/button.component';
 import { CardComponent, CardSize } from './card.component';
-import { moduleMetadata, Story, Meta, componentWrapperDecorator } from '@storybook/angular';
-import { CommonModule } from '@angular/common';
+import { Story } from '@storybook/angular';
 import { ButtonComponent } from '../button/button.component';
+import { DefaultStoryConfig } from 'src/stories/util';
 
-export default {
+
+export default DefaultStoryConfig({
   title: 'Story Book/Card',
   component: CardComponent,
-  decorators: [
-
-    moduleMetadata({
-      declarations: [ButtonComponent],
-    }),
-  ],
-  argTypes: {
-    content: {
-        defaultValue: 'Lorem ipsum dolor sit',
-        description: 'this is content of the card with ng content',
-        table: {
-            category: 'ng-content',
-        },
-        control: {
-          type: 'text'
-        }
+  declarations: [ButtonComponent],
+  properties: [
+    {
+      name: 'content',
+      type: 'string',
+      defaultValue: 'Lorem ipsum dolor sit',
+      description: 'this is content of the card with ng content',
+      category: 'ng-content',
+      control: 'text',
     },
-
-    title: {
-        type: { name: 'string', required: false },
-        defaultValue: 'Title',
-        description: 'this input represents title of Card',
-        table: {
-            category: 'inputs',
-            type: { summary: 'string' },
-            defaultValue: { summary: 'Title' },
-        },
-        control: {
-          type: 'text'
-        }
+    {
+      name: 'title',
+      type: 'string',
+      defaultValue: 'title',
+      description: 'this input represents title of Card',
+      category: 'inputs',
+      control: 'text',
     },
-    isCircleImage : {
-        type: { name: 'boolean', required: false },
-        defaultValue: 'false',
-        description: 'this input changes card image from rectangle to circle',
-        table: {
-            category: 'inputs',
-            type: { summary: 'boolean' },
-            defaultValue: { summary: 'false' },
-        },
-        control: {
-          type: 'boolean'
-        }
+    {
+      name: 'isCircleImage',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'this input changes card image from rectangle to circle',
+      category: 'inputs',
+      control: 'boolean',
     },
-
-    size : {
-        type: { name: 'CardSize', required: false },
-        defaultValue: CardSize.Normal,
-        description: 'this input changes card size',
-        table: {
-            category: 'inputs',
-            type: { summary: 'CardSize' },
-            defaultValue: { summary: CardSize.Normal },
-        },
-        options: [CardSize.Small, CardSize.Normal, CardSize.Big],
-        control: {
-          type: 'radio'
-        }
+    {
+      name: 'size',
+      type: 'CardSize',
+      defaultValue: CardSize.Normal,
+      description: 'this input changes card size',
+      category: 'inputs',
+      options: [CardSize.Small, CardSize.Normal, CardSize.Big],
+      control: 'select',
     },
-
-    onClick : {
-        description: 'this event calls on button card click',
+    {
+      name: 'onClick',
+      description: 'this event calls on button card click'
     },
-
-  },
-
-} as Meta;
+    {
+      name: 'cardClicked',
+      disable: true
+    },
+    {
+      name: 'buttonSize',
+      disable: true
+    },
+    {
+      name: 'cardSize',
+      disable: true
+    },
+  ]
+});
 
 
 

@@ -2,59 +2,41 @@ import { ButtonSize } from './button.component';
 // also exported from '@storybook/angular' if you can deal with breaking changes in 6.1
 import { Story, Meta } from '@storybook/angular/types-6-0';
 import { ButtonComponent } from './button.component';
+import { DefaultStoryConfig } from 'src/stories/util';
 
-export default {
+
+// tslint:disable-next-line:align
+export default DefaultStoryConfig({
   title: 'Story Book/Button',
   component: ButtonComponent,
-  argTypes: {
-    label: {
-        type: { name: 'string', required: false },
-        defaultValue: 'Button',
-        description: 'this input represents title of button',
-        table: {
-            category: 'inputs',
-            type: { summary: 'string' },
-            defaultValue: { summary: 'Button' },
-        },
-        control: {
-          type: 'text'
-        }
+  properties: [
+    {
+      name: 'label',
+      type: 'string',
+      defaultValue: 'Button',
+      description: 'this input represents title of button',
+      category: 'inputs',
+      control: 'text',
     },
-    isPrimary : {
-        type: { name: 'boolean', required: false },
-        defaultValue: 'false',
-        description: 'this input changes button to primary button',
-        table: {
-            category: 'inputs',
-            type: { summary: 'boolean' },
-            defaultValue: { summary: 'false' },
-        },
-        control: {
-          type: 'boolean'
-        }
+    {
+      name: 'isPrimary',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'this input changes button to primary button',
+      category: 'inputs',
+      control: 'boolean',
     },
-
-    size : {
-        type: { name: 'ButtonSize', required: false },
-        defaultValue: ButtonSize.Normal,
-        description: 'this input changes button size',
-        table: {
-            category: 'inputs',
-            type: { summary: 'ButtonSize' },
-            defaultValue: { summary: ButtonSize.Normal },
-        },
-        options: [ButtonSize.Small, ButtonSize.Normal, ButtonSize.Big],
-        control: {
-          type: 'select'
-        }
+    {
+      name: 'size',
+      type: 'ButtonSize',
+      defaultValue: ButtonSize.Normal,
+      description: 'this input changes button size',
+      category: 'inputs',
+      options: [ButtonSize.Small, ButtonSize.Normal, ButtonSize.Big],
+      control: 'select',
     },
-
-    onClick : {
-        description: 'this event calls on button click',
-    },
-
-  },
-} as Meta;
+  ]
+});
 
 const Template: Story<ButtonComponent> = (args: ButtonComponent) => ({
   props: args,

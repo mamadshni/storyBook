@@ -89,6 +89,156 @@
             "indexSignatures": [],
             "kind": 150,
             "methods": []
+        },
+        {
+            "name": "DefaultConfigInterface",
+            "id": "interface-DefaultConfigInterface-f31b10e2a11f3c963dcb5e38c1fd7354",
+            "file": "src/stories/utill.ts",
+            "type": "interface",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties ?: PropertiesInterface[];\r\n}\r\n\r\n\r\n\r\nexport function DefaultStoryConfig(configs: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    configs.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: configs.title,\r\n        component: configs.component,\r\n        decorators: [\r\n          moduleMetadata({\r\n            declarations: configs.declarations,\r\n            imports: configs.imports\r\n          }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "component",
+                    "type": "any",
+                    "optional": true,
+                    "description": "",
+                    "line": 26
+                },
+                {
+                    "name": "declarations",
+                    "type": "any[]",
+                    "optional": true,
+                    "description": "",
+                    "line": 29
+                },
+                {
+                    "name": "imports",
+                    "type": "any[]",
+                    "optional": true,
+                    "description": "",
+                    "line": 30
+                },
+                {
+                    "name": "includeStories",
+                    "type": "string[]",
+                    "optional": true,
+                    "description": "",
+                    "line": 27
+                },
+                {
+                    "name": "properties",
+                    "type": "PropertiesInterface[]",
+                    "optional": true,
+                    "description": "",
+                    "line": 32
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 25
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "PropertiesInterface",
+            "id": "interface-PropertiesInterface-f31b10e2a11f3c963dcb5e38c1fd7354",
+            "file": "src/stories/utill.ts",
+            "type": "interface",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties ?: PropertiesInterface[];\r\n}\r\n\r\n\r\n\r\nexport function DefaultStoryConfig(configs: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    configs.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: configs.title,\r\n        component: configs.component,\r\n        decorators: [\r\n          moduleMetadata({\r\n            declarations: configs.declarations,\r\n            imports: configs.imports\r\n          }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "category",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "control",
+                    "type": "ControlTypeInterface",
+                    "optional": true,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "defaultValue",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "description",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "disable",
+                    "type": "boolean",
+                    "optional": true,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "maxRange",
+                    "type": "number",
+                    "optional": true,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "minRange",
+                    "type": "number",
+                    "optional": true,
+                    "description": "",
+                    "line": 19
+                },
+                {
+                    "name": "name",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "options",
+                    "type": "string[]",
+                    "optional": true,
+                    "description": "",
+                    "line": 17
+                },
+                {
+                    "name": "require",
+                    "type": "boolean",
+                    "optional": true,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "stepRange",
+                    "type": "number",
+                    "optional": true,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "type",
+                    "type": "any",
+                    "optional": true,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
         }
     ],
     "injectables": [],
@@ -581,9 +731,40 @@
                         }
                     }
                 ]
+            },
+            {
+                "name": "DefaultStoryConfig",
+                "file": "src/stories/utill.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "configs"
+                    }
+                ],
+                "returnType": "Meta",
+                "jsdoctags": [
+                    {
+                        "name": "configs",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
             }
         ],
-        "typealiases": [],
+        "typealiases": [
+            {
+                "name": "ControlTypeInterface",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "\"array\" | \"boolean\" | \"number\" | \"range\" | \"object\" | \"radio\" | \"inline-radio\" | \"check\" | \"\tinline-check\" | \"select\" | \"multi-select\" | \"text\" | \"color\" | \"date\"",
+                "file": "src/stories/utill.ts",
+                "description": "",
+                "kind": 168
+            }
+        ],
         "enumerations": [
             {
                 "name": "ButtonSize",
@@ -789,6 +970,29 @@
                         }
                     ]
                 }
+            ],
+            "src/stories/utill.ts": [
+                {
+                    "name": "DefaultStoryConfig",
+                    "file": "src/stories/utill.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "configs"
+                        }
+                    ],
+                    "returnType": "Meta",
+                    "jsdoctags": [
+                        {
+                            "name": "configs",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
             ]
         },
         "groupedEnumerations": {
@@ -839,7 +1043,19 @@
                 }
             ]
         },
-        "groupedTypeAliases": {}
+        "groupedTypeAliases": {
+            "src/stories/utill.ts": [
+                {
+                    "name": "ControlTypeInterface",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "\"array\" | \"boolean\" | \"number\" | \"range\" | \"object\" | \"radio\" | \"inline-radio\" | \"check\" | \"\tinline-check\" | \"select\" | \"multi-select\" | \"text\" | \"color\" | \"date\"",
+                    "file": "src/stories/utill.ts",
+                    "description": "",
+                    "kind": 168
+                }
+            ]
+        }
     },
     "routes": [],
     "coverage": {
@@ -1036,6 +1252,33 @@
                 "type": "function",
                 "linksubtype": "function",
                 "name": "args",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/utill.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "DefaultConfigInterface",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/utill.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "PropertiesInterface",
+                "coveragePercent": 0,
+                "coverageCount": "0/13",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/utill.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "DefaultStoryConfig",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
