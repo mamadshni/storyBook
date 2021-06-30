@@ -1,0 +1,16 @@
+
+<img class="img" src="https://cdn.wallpaperjam.com/static/images/m/d6/6f/d66f68e5f47e64427ee0cf155a6f918959491a7a.jpg" [class.circle-image]= 'isCircleImage'>
+
+<h4 class="title">{{title}}</h4>
+
+<p class="dis">
+    <ng-content></ng-content> 
+</p>
+
+<app-button
+  class="button"
+  [isPrimary] = "false"
+  [size] = "buttonSize.Small"
+  [label] = "'button'"
+  (clicked) = "onClick()"></app-button>
+

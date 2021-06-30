@@ -1,0 +1,1073 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "ArgsInterface",
+            "id": "interface-ArgsInterface-46f153b7f4a75b90bfaa43c4da3f7d13",
+            "file": "src/stories/test.ts",
+            "type": "interface",
+            "sourceCode": "import { ArgTypes } from '@storybook/angular';\r\n\r\n// tslint:disable-next-line:typedef\r\nfunction args(obj: ArgsInterface[]) {\r\n    const result: ArgTypes;\r\n\r\n    obj.forEach(item => {\r\n\r\n        result[item.name] = {\r\n            type : { name: item.type, required: item.require },\r\n            defaultValue: item.defaultValue,\r\n            description: item.description,\r\n            table: {\r\n                disable: item.disable,\r\n                category: item.category,\r\n                type: { summary: item.type },\r\n                defaultValue: { summary: item.defaultValue },\r\n            },\r\n            options: item.options,\r\n            control: {\r\n              type: item.control,\r\n              min: item.minRange,\r\n              max: item.maxRange\r\n            }\r\n\r\n        };\r\n\r\n    });\r\n\r\n    return result;\r\n\r\n}\r\n\r\n// tslint:disable-next-line:no-empty-interface\r\ninterface ArgsInterface {\r\n    name: string;\r\n    disable?: boolean;\r\n    require?: boolean;\r\n\r\n    type?: any;\r\n    defaultValue?: string;\r\n    description?: string;\r\n    category?: string;\r\n\r\n    control?: 'boolean' | 'select' | 'radio' | 'range';\r\n    options?: string[];\r\n    minRange?: number;\r\n    maxRange?: number;\r\n\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "category",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 43
+                },
+                {
+                    "name": "control",
+                    "type": "\"boolean\" | \"select\" | \"radio\" | \"range\"",
+                    "optional": true,
+                    "description": "",
+                    "line": 45
+                },
+                {
+                    "name": "defaultValue",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 41
+                },
+                {
+                    "name": "description",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 42
+                },
+                {
+                    "name": "disable",
+                    "type": "boolean",
+                    "optional": true,
+                    "description": "",
+                    "line": 37
+                },
+                {
+                    "name": "maxRange",
+                    "type": "number",
+                    "optional": true,
+                    "description": "",
+                    "line": 48
+                },
+                {
+                    "name": "minRange",
+                    "type": "number",
+                    "optional": true,
+                    "description": "",
+                    "line": 47
+                },
+                {
+                    "name": "name",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 36
+                },
+                {
+                    "name": "options",
+                    "type": "string[]",
+                    "optional": true,
+                    "description": "",
+                    "line": 46
+                },
+                {
+                    "name": "require",
+                    "type": "boolean",
+                    "optional": true,
+                    "description": "",
+                    "line": 38
+                },
+                {
+                    "name": "type",
+                    "type": "any",
+                    "optional": true,
+                    "description": "",
+                    "line": 40
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        }
+    ],
+    "injectables": [],
+    "classes": [
+        {
+            "name": "AppPage",
+            "id": "class-AppPage-ee2067dfb1c303f41003aea7d82d51e0",
+            "file": "e2e/src/app.po.ts",
+            "type": "class",
+            "sourceCode": "import { browser, by, element } from 'protractor';\n\nexport class AppPage {\n  async navigateTo(): Promise<unknown> {\n    return browser.get(browser.baseUrl);\n  }\n\n  async getTitleText(): Promise<string> {\n    return element(by.css('app-root .content span')).getText();\n  }\n}\n",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "getTitleText",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Promise<string>",
+                    "typeParameters": [],
+                    "line": 8,
+                    "modifierKind": [
+                        120
+                    ]
+                },
+                {
+                    "name": "navigateTo",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Promise<unknown>",
+                    "typeParameters": [],
+                    "line": 4,
+                    "modifierKind": [
+                        120
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        }
+    ],
+    "directives": [],
+    "components": [
+        {
+            "name": "AppComponent",
+            "id": "component-AppComponent-58080be959197e7db6611744dc77c238",
+            "file": "src/app/app.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-root",
+            "styleUrls": [
+                "./app.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./app.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "cardSize",
+                    "defaultValue": "CardSize",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 11,
+                    "modifierKind": [
+                        132
+                    ]
+                },
+                {
+                    "name": "title",
+                    "defaultValue": "'storyBook'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "methodsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { CardSize } from './card/card.component';\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent {\n\n  readonly cardSize = CardSize;\n  title = 'storyBook';\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./app.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<app-card\n  [title]=\"'title'\"\n  [size]= \"cardSize.Normal\"\n  [isCircleImage]=\"false\">\nLorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, veniam distinctio. Officiis possimus cumque repellendus voluptas praesentium accusamus perspiciatis ipsa?</app-card>"
+        },
+        {
+            "name": "ButtonComponent",
+            "id": "component-ButtonComponent-6c2873d16c5971ae3a6a25c862560ad3",
+            "file": "src/app/button/button.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "host": {},
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-button",
+            "styleUrls": [
+                "./button.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./button.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "isPrimary",
+                    "defaultValue": "false",
+                    "line": 25
+                },
+                {
+                    "name": "label",
+                    "defaultValue": "'Button'",
+                    "line": 27
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "ButtonSize.Normal",
+                    "line": 26,
+                    "type": "ButtonSize"
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "clicked",
+                    "defaultValue": "new EventEmitter<void>()",
+                    "line": 29,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "buttonSize",
+                    "defaultValue": "ButtonSize",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 31,
+                    "modifierKind": [
+                        132
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 35
+                },
+                {
+                    "name": "onClick",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';\n\n\nexport enum ButtonSize {\n  Big = 'big',\n  Normal = 'normal',\n  Small = 'small'\n}\n\n@Component({\n  selector: 'app-button',\n  templateUrl: './button.component.html',\n  styleUrls: ['./button.component.scss'],\n  // tslint:disable-next-line:no-host-metadata-property\n  host: {\n    '[class.primary]': 'isPrimary',\n    '[class.big]': 'size === buttonSize.Big',\n    '[class.small]': 'size === buttonSize.Small',\n    '(click)': 'onClick()'\n  }\n})\n\nexport class ButtonComponent implements OnInit {\n\n  @Input() isPrimary = false;\n  @Input() size: ButtonSize = ButtonSize.Normal;\n  @Input() label = 'Button';\n\n  @Output() clicked = new EventEmitter<void>();\n\n  readonly buttonSize = ButtonSize;\n\n  constructor() { }\n\n  ngOnInit(): void {\n    console.log(this.size);\n  }\n\n  onClick(): void {\n    this.clicked.emit();\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "\r\n:host {\r\n    display: table;\r\n    align-self: center;\r\n    padding: 12px 24px;\r\n    color: white;\r\n    font-family: arial;\r\n    font-size: 14px;\r\n    letter-spacing: 1px;\r\n    text-transform: uppercase;\r\n    text-align: center;\r\n    background: rgb(255, 85, 85);\r\n    border-radius: 10px;\r\n    transition: all 0.1s ease-in-out;\r\n    cursor: pointer;\r\n    min-width: 48px;\r\n    margin: auto;\r\n\r\n    &:hover {   \r\n      background: #E03A3A;\r\n    }\r\n\r\n    &.primary {\r\n        background: #84A9C0;\r\n        color: #010101;\r\n\r\n        &:hover {\r\n            background: #779eb6;\r\n        }\r\n    }\r\n\r\n    &.big {\r\n        padding: 16px 32px;\r\n        font-size: 16px;\r\n        min-width: 64px;\r\n    }\r\n\r\n    &.small {\r\n        padding: 8px 16px;\r\n        min-width: 32px;\r\n    }\r\n}\r\n\r\n",
+                    "styleUrl": "./button.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 31
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "{{ label }}"
+        },
+        {
+            "name": "CardComponent",
+            "id": "component-CardComponent-cc94a99cb628dfe26b0a52d58b9ff375",
+            "file": "src/app/card/card.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "host": {},
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-card",
+            "styleUrls": [
+                "./card.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./card.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "isCircleImage",
+                    "defaultValue": "false",
+                    "line": 25
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "CardSize.Normal",
+                    "line": 23,
+                    "type": "CardSize"
+                },
+                {
+                    "name": "title",
+                    "line": 22,
+                    "type": "string"
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "cardClicked",
+                    "defaultValue": "new EventEmitter<void>()",
+                    "line": 27,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "buttonSize",
+                    "defaultValue": "ButtonSize",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 29,
+                    "modifierKind": [
+                        132
+                    ]
+                },
+                {
+                    "name": "cardSize",
+                    "defaultValue": "CardSize",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 30,
+                    "modifierKind": [
+                        132
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "onClick",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 34
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { ButtonSize } from './../button/button.component';\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\n\nexport enum CardSize {\n  Big = 'big',\n  Normal = 'normal',\n  Small = 'small'\n}\n\n@Component({\n  selector: 'app-card',\n  templateUrl: './card.component.html',\n  styleUrls: ['./card.component.scss'],\n  // tslint:disable-next-line:no-host-metadata-property\n  host : {\n    '[class.big]': 'size === buttonSize.Big',\n    '[class.small]': 'size === buttonSize.Small',\n  }\n})\nexport class CardComponent {\n\n  @Input() title: string;\n  @Input() size: CardSize = CardSize.Normal;\n\n  @Input() isCircleImage = false;\n\n  @Output() cardClicked = new EventEmitter<void>();\n\n  readonly buttonSize = ButtonSize;\n  readonly cardSize = CardSize;\n\n  constructor() { }\n\n  onClick(): void {\n    this.cardClicked.emit();\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host { \r\n    display: block; \r\n\tbackground-color: #fff;\r\n\tborder-radius: 3px;\r\n\tpadding: 40px 20px;\r\n\tmargin: 10px;\r\n\ttext-align: center;\r\n\twidth: 250px;\r\n\tmax-width: 100%;\r\n    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);\r\n    position: relative;\r\n\r\n    &.small {\r\n        width: 200px;\r\n        padding: 32px 16px;\r\n    }\r\n\r\n    &.big {\r\n        width: 300px;\r\n        padding: 48px 24px;\r\n    }\r\n}\r\n\r\n.img {\r\n    \r\n    width: 100%;\r\n\tbox-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);\r\n    height: 75px;\r\n    object-fit: cover;\r\n    object-position: center;\r\n}\r\n\r\n.circle-image {\r\n\tborder-radius: 50%;\r\n\twidth: 75px;\r\n}\r\n\r\n.title {\r\n\tmargin: 12px 0;\r\n    font-size: 20px;\r\n}\r\n\r\n.dis {\r\n\tcolor: #777;\r\n\tdisplay: block;\r\n}\r\n\r\n.button {\r\n    margin-top: 16px;\r\n}",
+                    "styleUrl": "./card.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 30
+            },
+            "templateData": "\n<img class=\"img\" src=\"https://cdn.wallpaperjam.com/static/images/m/d6/6f/d66f68e5f47e64427ee0cf155a6f918959491a7a.jpg\" [class.circle-image]= 'isCircleImage'>\n\n<h4 class=\"title\">{{title}}</h4>\n\n<p class=\"dis\">\n    <ng-content></ng-content> \n</p>\n\n<app-button\n  class=\"button\"\n  [isPrimary] = \"false\"\n  [size] = \"buttonSize.Small\"\n  [label] = \"'button'\"\n  (clicked) = \"onClick()\"></app-button>\n\n"
+        }
+    ],
+    "modules": [
+        {
+            "name": "AppModule",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        },
+                        {
+                            "name": "ButtonComponent"
+                        },
+                        {
+                            "name": "CardComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "Big",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/card/card.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Big",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/button/button.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "CircleImage",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/card/card.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "context",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/test.ts",
+                "type": "",
+                "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.prod.ts",
+                "type": "object",
+                "defaultValue": "{\n  production: true\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.ts",
+                "type": "object",
+                "defaultValue": "{\n  production: false\n}"
+            },
+            {
+                "name": "Normal",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/card/card.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Normal",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/button/button.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/button/button.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "RectangleImage",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/card/card.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/test.ts",
+                "type": "literal type"
+            },
+            {
+                "name": "Secondary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/button/button.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Small",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/card/card.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Small",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/button/button.component.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/card/card.component.stories.ts",
+                "type": "Story<CardComponent>",
+                "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/button/button.component.stories.ts",
+                "type": "Story<ButtonComponent>",
+                "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
+            }
+        ],
+        "functions": [
+            {
+                "name": "args",
+                "file": "src/stories/test.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "obj"
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "obj",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        ],
+        "typealiases": [],
+        "enumerations": [
+            {
+                "name": "ButtonSize",
+                "childs": [
+                    {
+                        "name": "Big",
+                        "value": "big"
+                    },
+                    {
+                        "name": "Normal",
+                        "value": "normal"
+                    },
+                    {
+                        "name": "Small",
+                        "value": "small"
+                    }
+                ],
+                "ctype": "miscellaneous",
+                "subtype": "enum",
+                "description": "",
+                "file": "src/app/button/button.component.ts"
+            },
+            {
+                "name": "CardSize",
+                "childs": [
+                    {
+                        "name": "Big",
+                        "value": "big"
+                    },
+                    {
+                        "name": "Normal",
+                        "value": "normal"
+                    },
+                    {
+                        "name": "Small",
+                        "value": "small"
+                    }
+                ],
+                "ctype": "miscellaneous",
+                "subtype": "enum",
+                "description": "",
+                "file": "src/app/card/card.component.ts"
+            }
+        ],
+        "groupedVariables": {
+            "src/app/card/card.component.stories.ts": [
+                {
+                    "name": "Big",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "CircleImage",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Normal",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "RectangleImage",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "Story<CardComponent>",
+                    "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
+                }
+            ],
+            "src/app/button/button.component.stories.ts": [
+                {
+                    "name": "Big",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Normal",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Secondary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "Story<ButtonComponent>",
+                    "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/test.ts",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/test.ts",
+                    "type": "literal type"
+                }
+            ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "type": "object",
+                    "defaultValue": "{\n  production: true\n}"
+                }
+            ],
+            "src/environments/environment.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.ts",
+                    "type": "object",
+                    "defaultValue": "{\n  production: false\n}"
+                }
+            ]
+        },
+        "groupedFunctions": {
+            "src/stories/test.ts": [
+                {
+                    "name": "args",
+                    "file": "src/stories/test.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "obj"
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "obj",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "groupedEnumerations": {
+            "src/app/button/button.component.ts": [
+                {
+                    "name": "ButtonSize",
+                    "childs": [
+                        {
+                            "name": "Big",
+                            "value": "big"
+                        },
+                        {
+                            "name": "Normal",
+                            "value": "normal"
+                        },
+                        {
+                            "name": "Small",
+                            "value": "small"
+                        }
+                    ],
+                    "ctype": "miscellaneous",
+                    "subtype": "enum",
+                    "description": "",
+                    "file": "src/app/button/button.component.ts"
+                }
+            ],
+            "src/app/card/card.component.ts": [
+                {
+                    "name": "CardSize",
+                    "childs": [
+                        {
+                            "name": "Big",
+                            "value": "big"
+                        },
+                        {
+                            "name": "Normal",
+                            "value": "normal"
+                        },
+                        {
+                            "name": "Small",
+                            "value": "small"
+                        }
+                    ],
+                    "ctype": "miscellaneous",
+                    "subtype": "enum",
+                    "description": "",
+                    "file": "src/app/card/card.component.ts"
+                }
+            ]
+        },
+        "groupedTypeAliases": {}
+    },
+    "routes": [],
+    "coverage": {
+        "count": 0,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "e2e/src/app.po.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "AppPage",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/app.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AppComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/button/button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Big",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/button/button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Normal",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/button/button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/button/button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Secondary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/button/button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Small",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/button/button.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/button/button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ButtonComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/card/card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Big",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/card/card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "CircleImage",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/card/card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Normal",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/card/card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "RectangleImage",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/card/card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Small",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/card/card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/card/card.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "CardComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/environments/environment.prod.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "environment",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/environments/environment.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "environment",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/test.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ArgsInterface",
+                "coveragePercent": 0,
+                "coverageCount": "0/12",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/test.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "args",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/test.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "context",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/test.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "require",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            }
+        ]
+    }
+}

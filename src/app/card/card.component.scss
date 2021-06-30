@@ -1,0 +1,50 @@
+:host { 
+    display: block; 
+	background-color: #fff;
+	border-radius: 3px;
+	padding: 40px 20px;
+	margin: 10px;
+	text-align: center;
+	width: 250px;
+	max-width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    &.small {
+        width: 200px;
+        padding: 32px 16px;
+    }
+
+    &.big {
+        width: 300px;
+        padding: 48px 24px;
+    }
+}
+
+.img {
+    
+    width: 100%;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    height: 75px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.circle-image {
+	border-radius: 50%;
+	width: 75px;
+}
+
+.title {
+	margin: 12px 0;
+    font-size: 20px;
+}
+
+.dis {
+	color: #777;
+	display: block;
+}
+
+.button {
+    margin-top: 16px;
+}

@@ -1,0 +1,43 @@
+
+:host {
+    display: table;
+    align-self: center;
+    padding: 12px 24px;
+    color: white;
+    font-family: arial;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    background: rgb(255, 85, 85);
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+    min-width: 48px;
+    margin: auto;
+
+    &:hover {   
+      background: #E03A3A;
+    }
+
+    &.primary {
+        background: #84A9C0;
+        color: #010101;
+
+        &:hover {
+            background: #779eb6;
+        }
+    }
+
+    &.big {
+        padding: 16px 32px;
+        font-size: 16px;
+        min-width: 64px;
+    }
+
+    &.small {
+        padding: 8px 16px;
+        min-width: 32px;
+    }
+}
+
