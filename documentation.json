@@ -251,14 +251,6 @@
             ],
             "methodsClass": [
                 {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 35
-                },
-                {
                     "name": "onClick",
                     "args": [],
                     "optional": false,
@@ -445,7 +437,7 @@
                 "name": "Big",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/card/card.component.stories.ts",
+                "file": "src/app/button/button.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -453,7 +445,7 @@
                 "name": "Big",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/button/button.component.stories.ts",
+                "file": "src/app/card/card.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -493,7 +485,7 @@
                 "name": "Normal",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/card/card.component.stories.ts",
+                "file": "src/app/button/button.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -501,7 +493,7 @@
                 "name": "Normal",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/button/button.component.stories.ts",
+                "file": "src/app/card/card.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -540,7 +532,7 @@
                 "name": "Small",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/card/card.component.stories.ts",
+                "file": "src/app/button/button.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -548,17 +540,9 @@
                 "name": "Small",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/button/button.component.stories.ts",
+                "file": "src/app/card/card.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/card/card.component.stories.ts",
-                "type": "Story<CardComponent>",
-                "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -567,6 +551,14 @@
                 "file": "src/app/button/button.component.stories.ts",
                 "type": "Story<ButtonComponent>",
                 "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/card/card.component.stories.ts",
+                "type": "Story<CardComponent>",
+                "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
             }
         ],
         "functions": [
@@ -637,56 +629,6 @@
             }
         ],
         "groupedVariables": {
-            "src/app/card/card.component.stories.ts": [
-                {
-                    "name": "Big",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/card/card.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "CircleImage",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/card/card.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Normal",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/card/card.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "RectangleImage",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/card/card.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Small",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/card/card.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/card/card.component.stories.ts",
-                    "type": "Story<CardComponent>",
-                    "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
-                }
-            ],
             "src/app/button/button.component.stories.ts": [
                 {
                     "name": "Big",
@@ -735,6 +677,56 @@
                     "file": "src/app/button/button.component.stories.ts",
                     "type": "Story<ButtonComponent>",
                     "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/card/card.component.stories.ts": [
+                {
+                    "name": "Big",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "CircleImage",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Normal",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "RectangleImage",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/card/card.component.stories.ts",
+                    "type": "Story<CardComponent>",
+                    "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
                 }
             ],
             "src/test.ts": [
@@ -938,7 +930,7 @@
                 "linktype": "component",
                 "name": "ButtonComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/9",
+                "coverageCount": "0/8",
                 "status": "low"
             },
             {

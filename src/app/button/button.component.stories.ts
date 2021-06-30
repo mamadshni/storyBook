@@ -53,13 +53,6 @@ export default {
         description: 'this event calls on button click',
     },
 
-
-    backgroundColor : {
-        table : { disable: true }
-    },
-    primary : {
-        table : { disable: true }
-    },
   },
 } as Meta;
 

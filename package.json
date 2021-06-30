@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
+    "docs:json": "compodoc --disablePrivate --disableProtected --disableLifeCycleHooks -p ./tsconfig.json -e json -d .",
     "storybook": "npm run docs:json && start-storybook -p 6006",
     "build-storybook": "npm run docs:json && build-storybook"
   },
