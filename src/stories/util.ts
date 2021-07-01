@@ -62,7 +62,7 @@ export interface StoryConfig {
     template: Story;
 
     /**
-     * The HTML code snippet; will be prettified automatically
+     * The HTML code snippet for the story - use only if the default code snippet is wrong! will be prettified automatically
      */
     codeSnippet?: string;
 
