@@ -1,7 +1,8 @@
-import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';
+import { Meta, moduleMetadata, ArgTypes, Story } from '@storybook/angular';
 
-export type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '	inline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';
-export interface PropertiesInterface {
+export type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '	inline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';
+
+export interface PropertyConfig {
 
     name: string;
     description?: string;
@@ -13,29 +14,62 @@ export interface PropertiesInterface {
 
     category?: string;
 
-    control?: ControlTypeInterface;
+    control?: ControlType;
     options?: string[];
+    labels?: {[key: string]: string};
 
     minRange?: number;
     maxRange?: number;
     stepRange?: number;
 }
-export interface DefaultConfigInterface {
 
+export interface ComponentStoriesConfig {
+    /**
+     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy
+     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)
+     */
     title: string;
+
+    /**
+     * The component that should be used for the stories
+     */
     component?: any;
     includeStories?: string[];
 
+    /**
+     * Provide any additional declarations that might be needed to run the stories here.
+     */
     declarations?: any[];
+    /**
+     * Provide any additional imports that might be needed to run the stories here.
+     */
     imports?: any[];
 
-    properties?: PropertiesInterface[];
+    /**
+     * additional configuration for the properties of the component.
+     * Use this to customize the controls + docs for the component
+     * further and fix anything Story Book got wrong
+     * (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)
+     */
+    properties?: PropertyConfig[];
 }
 
-export function DefaultStoryConfig(config: DefaultConfigInterface): Meta {
+
+export interface StoryConfig {
+    template: Story;
+
+    codeSnippet ?: string;
+    storyDescription ?: string;
+}
+
+
+
+
+export function componentStoriesSetup(config: ComponentStoriesConfig): Meta {
+
     const argTypesObject: ArgTypes = {};
 
-    config.properties.forEach((property: PropertiesInterface) => {
+    config.properties.forEach((property: PropertyConfig) => {
         argTypesObject[property.name] = {
             ...property,
             type: { name: `${property.type}`, required: property.require },
@@ -49,7 +83,8 @@ export function DefaultStoryConfig(config: DefaultConfigInterface): Meta {
             },
             options: property.options,
             control: {
-                type: property.control || null
+                type: property.control || null,
+                labels: property.labels,
             }
         };
     });
@@ -67,25 +102,84 @@ export function DefaultStoryConfig(config: DefaultConfigInterface): Meta {
     } as Meta;
 }
 
-//https://stackoverflow.com/a/43091709/13727176
-export function enumMembersAsLabels(someEnum: any, enumName?: string) {
-    //the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?
-    if (enumName) return Object.keys(someEnum)
-        .filter(value => typeof value === 'string')
-        .map(value => `${enumName}.${value}`) as string[];
-
-    return Object.keys(someEnum)
-        .filter(value => typeof value === 'string') as string[];
+// https://stackoverflow.com/a/43091709/13727176
+export function enumMembersAsLabels(someEnum: any, enumName?: string): {[key: string]: string} {
+    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?
+    return Object.entries(someEnum)
+        .filter(([key, value]) => isNaN(+key))
+        .reduce((obj, [key, value]: [string, string]) => {
+            obj[value] = `${enumName ? `${enumName}.` : '' }${key}`;
+            return obj;
+        }, {});
 }
 
-export function enumMemberAsLabel<T extends {[index:string]:string | number}>(myEnum: T, enumValue: string | number, enumName?: string) {
+// tslint:disable-next-line:max-line-length
+export function enumMemberAsLabel <T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {
     const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);
-    if (enumName) return `${enumName}.${enumKey}`;
-    return enumKey;
+    return `${enumName ? `${enumName}.` : '' }${enumKey}`;
 }
 
-//https://stackoverflow.com/a/54297863/13727176
-function getEnumKeyByEnumValue<T extends {[index:string]:string | number}>(myEnum:T, enumValue: string | number):keyof T|null {
-    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);
+// https://stackoverflow.com/a/54297863/13727176
+function getEnumKeyByEnumValue<T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number): keyof T|null {
+    const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
     return keys.length > 0 ? keys[0] : null;
 }
+
+export function enumValues(someEnum: any): string[] {
+    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?
+
+    return Object.values(someEnum).filter(value => isNaN(+value)) as string[];
+}
+
+export function prettifyHtml(html: string): string {
+
+    const div = document.createElement('div');
+    div.innerHTML = html.trim().replace(/^\s+|\s+$/gm, '').split('\n').join('');
+
+    return formatHtml(div, 0).innerHTML;
+}
+
+
+export function formatHtml(node: HTMLElement, level: number): HTMLElement {
+
+    const indentBefore = new Array(level++ + 1).join('    ');
+    const indentAfter = new Array(level - 1).join('    ');
+    let textNode;
+
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < node.children.length; i++) {
+
+        textNode = document.createTextNode('\n' + indentBefore);
+        node.insertBefore(textNode, node.children[i]);
+
+        formatHtml(node.children[i] as HTMLElement, level);
+
+        if (node.lastElementChild === node.children[i]) {
+            textNode = document.createTextNode('\n' + indentAfter);
+            node.appendChild(textNode);
+        }
+    }
+
+    return node;
+}
+
+
+export function createStoryWithConfig(config: StoryConfig): Story {
+    const reference: Story = config.template.bind({});
+
+    reference.parameters = {
+        docs : {
+            description : {
+                story : config.storyDescription,
+            },
+            source : {
+                code: prettifyHtml(config.codeSnippet)
+            }
+        }
+    };
+    return reference;
+}
+
+
+
+

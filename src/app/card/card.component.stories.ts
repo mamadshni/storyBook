@@ -1,10 +1,10 @@
 import { CardComponent, CardSize } from './card.component';
 import { Story } from '@storybook/angular';
 import { ButtonComponent } from '../button/button.component';
-import { DefaultStoryConfig, enumMemberAsLabel, enumMembersAsLabels } from 'src/stories/util';
+import { componentStoriesSetup, createStoryWithConfig, enumMemberAsLabel, enumMembersAsLabels, enumValues } from 'src/stories/util';
 
 
-export default DefaultStoryConfig({
+export default componentStoriesSetup({
   title: 'Story Book/Card',
   component: CardComponent,
   declarations: [ButtonComponent],
@@ -34,7 +34,8 @@ export default DefaultStoryConfig({
       type: 'CardSize',
       defaultValue: enumMemberAsLabel(CardSize, CardSize.Big, 'CardSize'),
       category: 'inputs',
-      options: enumMembersAsLabels(CardSize, 'CardSize'),
+      options: enumValues(CardSize),
+      labels: enumMembersAsLabels(CardSize, 'CardSize'),
       control: 'radio',
     },
     {
@@ -56,46 +57,66 @@ const Template: Story<CardComponent> = (args: CardComponent) => ({
     props: args,
 });
 
-export const CircleImage = Template.bind({});
+
+
+export const CircleImage = createStoryWithConfig({
+  template : Template,
+  storyDescription : 'test',
+  codeSnippet : `
+      <app-card
+        [title]="title" [size]="size" [isCircleImage]="isCircleImage">
+        content
+      </app-card>
+`
+});
 
 CircleImage.args = {
     isCircleImage : true,
     title: 'Circle Image',
 };
 
-// CircleImage.parameters = {
-//     docs : {
-//         description : {
-//             story : "a",
-//         },
-//         source : {
-//             code: ""
-//         }
-//     }
-// }
 
+export const RectangleImage = createStoryWithConfig({
+  template : Template,
+  storyDescription : 'test',
+  codeSnippet : 'test'
+});
 
-export const RectangleImage = Template.bind({});
 RectangleImage.args = {
     isCircleImage : false,
     title: 'Rectangle Image',
 };
 
 
-export const Big = Template.bind({});
+export const Big = createStoryWithConfig({
+  template : Template,
+  storyDescription : 'test',
+  codeSnippet : 'test'
+});
+
 Big.args = {
     ...CircleImage.args,
     size: CardSize.Big,
 };
 
 
-export const Normal = Template.bind({});
+export const Normal = createStoryWithConfig({
+  template : Template,
+  storyDescription : 'test',
+  codeSnippet : 'test'
+});
+
 Normal.args = {
     ...CircleImage.args,
     size: CardSize.Normal,
 };
 
-export const Small = Template.bind({});
+export const Small = createStoryWithConfig({
+  template : Template,
+  storyDescription : 'test',
+  codeSnippet : 'test'
+});
+
 Small.args = {
     ...CircleImage.args,
     size: CardSize.Small,
