@@ -131,6 +131,37 @@ export function enumValues(someEnum: any): string[] {
     return Object.values(someEnum).filter(value => isNaN(+value)) as string[];
 }
 
+export function prettifyHtml(html: string): string {
+
+    const div = document.createElement('div');
+    div.innerHTML = html.trim().replace(/^\s+|\s+$/gm, '').split('\n').join('');
+
+    return formatHtml(div, 0).innerHTML;
+}
+
+
+export function formatHtml(node: HTMLElement, level: number): HTMLElement {
+
+    const indentBefore = new Array(level++ + 1).join('    ');
+    const indentAfter = new Array(level - 1).join('    ');
+    let textNode;
+
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < node.children.length; i++) {
+
+        textNode = document.createTextNode('\n' + indentBefore);
+        node.insertBefore(textNode, node.children[i]);
+
+        formatHtml(node.children[i] as HTMLElement, level);
+
+        if (node.lastElementChild === node.children[i]) {
+            textNode = document.createTextNode('\n' + indentAfter);
+            node.appendChild(textNode);
+        }
+    }
+
+    return node;
+}
 
 
 export function createStoryWithConfig(config: StoryConfig): Story {
@@ -142,7 +173,7 @@ export function createStoryWithConfig(config: StoryConfig): Story {
                 story : config.storyDescription,
             },
             source : {
-                code: config.codeSnippet
+                code: prettifyHtml(config.codeSnippet)
             }
         }
     };

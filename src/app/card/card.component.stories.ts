@@ -62,7 +62,12 @@ const Template: Story<CardComponent> = (args: CardComponent) => ({
 export const CircleImage = createStoryWithConfig({
   template : Template,
   storyDescription : 'test',
-  codeSnippet : 'test'
+  codeSnippet : `
+      <app-card
+        [title]="title" [size]="size" [isCircleImage]="isCircleImage">
+        content
+      </app-card>
+`
 });
 
 CircleImage.args = {
