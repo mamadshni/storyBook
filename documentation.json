@@ -91,53 +91,53 @@
             "methods": []
         },
         {
-            "name": "DefaultConfigInterface",
-            "id": "interface-DefaultConfigInterface-890982991650882d7daf0c909ae92703",
+            "name": "ComponentStoriesConfig",
+            "id": "interface-ComponentStoriesConfig-86ea8884ccf99dead151067d9fbece96",
             "file": "src/stories/util.ts",
             "type": "interface",
-            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties?: PropertiesInterface[];\r\n}\r\n\r\nenum Test {\r\n    Lol,\r\n    Rofl\r\n}\r\n\r\nexport function DefaultStoryConfig(config: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    console.log(enumMemberAsLabel(Test, Test.Lol, 'Test'));\r\n\r\n    config.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n//https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string) {\r\n    //the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\nexport function enumMemberAsLabel<T extends {[index:string]:string | number}>(myEnum: T, enumValue: string | number, enumName?: string) {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) return `${enumName}.${enumKey}`;\r\n    return enumKey;\r\n}\r\n\r\n//https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index:string]:string | number}>(myEnum:T, enumValue: string | number):keyof T|null {\r\n    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n//https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string) {\r\n    //the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\nexport function enumMemberAsLabel<T extends {[index:string]:string | number}>(myEnum: T, enumValue: string | number, enumName?: string) {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) return `${enumName}.${enumKey}`;\r\n    return enumKey;\r\n}\r\n\r\n//https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index:string]:string | number}>(myEnum:T, enumValue: string | number):keyof T|null {\r\n    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}",
             "properties": [
                 {
                     "name": "component",
                     "type": "any",
                     "optional": true,
-                    "description": "",
-                    "line": 26
+                    "description": "<p>The component that should be used for the stories</p>\n",
+                    "line": 34
                 },
                 {
                     "name": "declarations",
                     "type": "any[]",
                     "optional": true,
                     "description": "",
-                    "line": 29
+                    "line": 37
                 },
                 {
                     "name": "imports",
                     "type": "any[]",
                     "optional": true,
                     "description": "",
-                    "line": 30
+                    "line": 38
                 },
                 {
                     "name": "includeStories",
                     "type": "string[]",
                     "optional": true,
                     "description": "",
-                    "line": 27
+                    "line": 35
                 },
                 {
                     "name": "properties",
-                    "type": "PropertiesInterface[]",
+                    "type": "PropertyConfig[]",
                     "optional": true,
                     "description": "",
-                    "line": 32
+                    "line": 40
                 },
                 {
                     "name": "title",
                     "type": "string",
                     "optional": false,
-                    "description": "",
-                    "line": 25
+                    "description": "<p>Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\n(e.g. use &#39;StoryBook/Button&#39; if the &#39;Button&#39; stories should be under the &#39;Story Book&#39; heading)</p>\n",
+                    "line": 30
                 }
             ],
             "indexSignatures": [],
@@ -145,95 +145,95 @@
             "methods": []
         },
         {
-            "name": "PropertiesInterface",
-            "id": "interface-PropertiesInterface-890982991650882d7daf0c909ae92703",
+            "name": "PropertyConfig",
+            "id": "interface-PropertyConfig-86ea8884ccf99dead151067d9fbece96",
             "file": "src/stories/util.ts",
             "type": "interface",
-            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\nexport interface PropertiesInterface {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlTypeInterface;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\nexport interface DefaultConfigInterface {\r\n\r\n    title: string;\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties?: PropertiesInterface[];\r\n}\r\n\r\nenum Test {\r\n    Lol,\r\n    Rofl\r\n}\r\n\r\nexport function DefaultStoryConfig(config: DefaultConfigInterface): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    console.log(enumMemberAsLabel(Test, Test.Lol, 'Test'));\r\n\r\n    config.properties.forEach((property: PropertiesInterface) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n//https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string) {\r\n    //the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\nexport function enumMemberAsLabel<T extends {[index:string]:string | number}>(myEnum: T, enumValue: string | number, enumName?: string) {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) return `${enumName}.${enumKey}`;\r\n    return enumKey;\r\n}\r\n\r\n//https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index:string]:string | number}>(myEnum:T, enumValue: string | number):keyof T|null {\r\n    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    declarations?: any[];\r\n    imports?: any[];\r\n\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n//https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string) {\r\n    //the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\nexport function enumMemberAsLabel<T extends {[index:string]:string | number}>(myEnum: T, enumValue: string | number, enumName?: string) {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) return `${enumName}.${enumKey}`;\r\n    return enumKey;\r\n}\r\n\r\n//https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index:string]:string | number}>(myEnum:T, enumValue: string | number):keyof T|null {\r\n    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}",
             "properties": [
                 {
                     "name": "category",
                     "type": "string",
                     "optional": true,
                     "description": "",
-                    "line": 14
+                    "line": 15
                 },
                 {
                     "name": "control",
-                    "type": "ControlTypeInterface",
+                    "type": "ControlType",
                     "optional": true,
                     "description": "",
-                    "line": 16
+                    "line": 17
                 },
                 {
                     "name": "defaultValue",
                     "type": "string",
                     "optional": true,
                     "description": "",
-                    "line": 8
+                    "line": 9
                 },
                 {
                     "name": "description",
                     "type": "string",
                     "optional": true,
                     "description": "",
-                    "line": 7
+                    "line": 8
                 },
                 {
                     "name": "disable",
                     "type": "boolean",
                     "optional": true,
                     "description": "",
-                    "line": 10
+                    "line": 11
                 },
                 {
                     "name": "maxRange",
                     "type": "number",
                     "optional": true,
                     "description": "",
-                    "line": 20
+                    "line": 21
                 },
                 {
                     "name": "minRange",
                     "type": "number",
                     "optional": true,
                     "description": "",
-                    "line": 19
+                    "line": 20
                 },
                 {
                     "name": "name",
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 6
+                    "line": 7
                 },
                 {
                     "name": "options",
                     "type": "string[]",
                     "optional": true,
                     "description": "",
-                    "line": 17
+                    "line": 18
                 },
                 {
                     "name": "require",
                     "type": "boolean",
                     "optional": true,
                     "description": "",
-                    "line": 11
+                    "line": 12
                 },
                 {
                     "name": "stepRange",
                     "type": "number",
                     "optional": true,
                     "description": "",
-                    "line": 21
+                    "line": 22
                 },
                 {
                     "name": "type",
                     "type": "any",
                     "optional": true,
                     "description": "",
-                    "line": 12
+                    "line": 13
                 }
             ],
             "indexSignatures": [],
@@ -428,7 +428,7 @@
         },
         {
             "name": "CardComponent",
-            "id": "component-CardComponent-5c27c97f77ed7c2735cdbb01d3a815ed",
+            "id": "component-CardComponent-8a2c65ae5210e6747049d5f659414ef9",
             "file": "src/app/card/card.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -449,7 +449,7 @@
                 {
                     "name": "isCircleImage",
                     "defaultValue": "false",
-                    "description": "<p>Whether the card&#39;s image should be displayed as a circle; if false, a rectangle image is used</p>\n",
+                    "description": "<p>Whether the card image should be displayed as a circle; if false, a rectangle image is used</p>\n",
                     "line": 34
                 },
                 {
@@ -470,7 +470,7 @@
                 {
                     "name": "cardClicked",
                     "defaultValue": "new EventEmitter<void>()",
-                    "description": "<p>event emitted whenever the card&#39;s action button is clicked</p>\n",
+                    "description": "<p>event emitted whenever the action button of the card is clicked</p>\n",
                     "line": 39,
                     "type": "EventEmitter"
                 }
@@ -491,7 +491,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { ButtonSize } from './../button/button.component';\r\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\r\n\r\nexport enum CardSize {\r\n  Big = 'big',\r\n  Normal = 'normal',\r\n  Small = 'small'\r\n}\r\n\r\n@Component({\r\n  selector: 'app-card',\r\n  templateUrl: './card.component.html',\r\n  styleUrls: ['./card.component.scss'],\r\n  // tslint:disable-next-line:no-host-metadata-property\r\n  host : {\r\n    '[class.big]': 'size === buttonSize.Big',\r\n    '[class.small]': 'size === buttonSize.Small',\r\n  }\r\n})\r\nexport class CardComponent {\r\n\r\n  /**\r\n   * The card title\r\n   */\r\n  @Input() title: string;\r\n  /**\r\n   * The size of the card\r\n   */\r\n  @Input() size: CardSize = CardSize.Normal;\r\n\r\n  /**\r\n   * Whether the card's image should be displayed as a circle; if false, a rectangle image is used\r\n   */\r\n  @Input() isCircleImage = false;\r\n\r\n  /**\r\n   * event emitted whenever the card's action button is clicked\r\n   */\r\n  @Output() cardClicked = new EventEmitter<void>();\r\n\r\n  private readonly buttonSize = ButtonSize;\r\n  private readonly cardSize = CardSize;\r\n\r\n  constructor() { }\r\n\r\n  onClick(): void {\r\n    this.cardClicked.emit();\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import { ButtonSize } from './../button/button.component';\r\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\r\n\r\nexport enum CardSize {\r\n  Big = 'big',\r\n  Normal = 'normal',\r\n  Small = 'small'\r\n}\r\n\r\n@Component({\r\n  selector: 'app-card',\r\n  templateUrl: './card.component.html',\r\n  styleUrls: ['./card.component.scss'],\r\n  // tslint:disable-next-line:no-host-metadata-property\r\n  host : {\r\n    '[class.big]': 'size === buttonSize.Big',\r\n    '[class.small]': 'size === buttonSize.Small',\r\n  }\r\n})\r\nexport class CardComponent {\r\n\r\n  /**\r\n   * The card title\r\n   */\r\n  @Input() title: string;\r\n  /**\r\n   * The size of the card\r\n   */\r\n  @Input() size: CardSize = CardSize.Normal;\r\n\r\n  /**\r\n   * Whether the card image should be displayed as a circle; if false, a rectangle image is used\r\n   */\r\n  @Input() isCircleImage = false;\r\n\r\n  /**\r\n   * event emitted whenever the action button of the card is clicked\r\n   */\r\n  @Output() cardClicked = new EventEmitter<void>();\r\n\r\n  private readonly buttonSize = ButtonSize;\r\n  private readonly cardSize = CardSize;\r\n\r\n  constructor() { }\r\n\r\n  onClick(): void {\r\n    this.cardClicked.emit();\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -560,7 +560,7 @@
                 "name": "Big",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/button/button.component.stories.ts",
+                "file": "src/app/card/card.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -568,7 +568,7 @@
                 "name": "Big",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/card/card.component.stories.ts",
+                "file": "src/app/button/button.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -592,23 +592,23 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.ts",
-                "type": "object",
-                "defaultValue": "{\r\n  production: false\r\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/environments/environment.prod.ts",
                 "type": "object",
                 "defaultValue": "{\r\n  production: true\r\n}"
             },
             {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.ts",
+                "type": "object",
+                "defaultValue": "{\r\n  production: false\r\n}"
+            },
+            {
                 "name": "Normal",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/button/button.component.stories.ts",
+                "file": "src/app/card/card.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -616,7 +616,7 @@
                 "name": "Normal",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/card/card.component.stories.ts",
+                "file": "src/app/button/button.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -655,7 +655,7 @@
                 "name": "Small",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/button/button.component.stories.ts",
+                "file": "src/app/card/card.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -663,17 +663,9 @@
                 "name": "Small",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/card/card.component.stories.ts",
+                "file": "src/app/button/button.component.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/button/button.component.stories.ts",
-                "type": "Story<ButtonComponent>",
-                "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -682,6 +674,14 @@
                 "file": "src/app/card/card.component.stories.ts",
                 "type": "Story<CardComponent>",
                 "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/button/button.component.stories.ts",
+                "type": "Story<ButtonComponent>",
+                "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
             }
         ],
         "functions": [
@@ -706,7 +706,7 @@
                 ]
             },
             {
-                "name": "DefaultStoryConfig",
+                "name": "componentStoriesSetup",
                 "file": "src/stories/util.ts",
                 "ctype": "miscellaneous",
                 "subtype": "function",
@@ -832,7 +832,7 @@
         ],
         "typealiases": [
             {
-                "name": "ControlTypeInterface",
+                "name": "ControlType",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "\"array\" | \"boolean\" | \"number\" | \"range\" | \"object\" | \"radio\" | \"inline-radio\" | \"check\" | \"\tinline-check\" | \"select\" | \"multi-select\" | \"text\" | \"color\" | \"date\"",
@@ -883,74 +883,9 @@
                 "subtype": "enum",
                 "description": "",
                 "file": "src/app/card/card.component.ts"
-            },
-            {
-                "name": "Test",
-                "childs": [
-                    {
-                        "name": "Lol"
-                    },
-                    {
-                        "name": "Rofl"
-                    }
-                ],
-                "ctype": "miscellaneous",
-                "subtype": "enum",
-                "description": "",
-                "file": "src/stories/util.ts"
             }
         ],
         "groupedVariables": {
-            "src/app/button/button.component.stories.ts": [
-                {
-                    "name": "Big",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/button/button.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Normal",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/button/button.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Primary",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/button/button.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Secondary",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/button/button.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Small",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/button/button.component.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/button/button.component.stories.ts",
-                    "type": "Story<ButtonComponent>",
-                    "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
-                }
-            ],
             "src/app/card/card.component.stories.ts": [
                 {
                     "name": "Big",
@@ -1001,6 +936,56 @@
                     "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
                 }
             ],
+            "src/app/button/button.component.stories.ts": [
+                {
+                    "name": "Big",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Normal",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Secondary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/button/button.component.stories.ts",
+                    "type": "Story<ButtonComponent>",
+                    "defaultValue": "(args: ButtonComponent) => ({\r\n  props: args,\r\n})"
+                }
+            ],
             "src/test.ts": [
                 {
                     "name": "context",
@@ -1018,16 +1003,6 @@
                     "type": "literal type"
                 }
             ],
-            "src/environments/environment.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.ts",
-                    "type": "object",
-                    "defaultValue": "{\r\n  production: false\r\n}"
-                }
-            ],
             "src/environments/environment.prod.ts": [
                 {
                     "name": "environment",
@@ -1036,6 +1011,16 @@
                     "file": "src/environments/environment.prod.ts",
                     "type": "object",
                     "defaultValue": "{\r\n  production: true\r\n}"
+                }
+            ],
+            "src/environments/environment.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.ts",
+                    "type": "object",
+                    "defaultValue": "{\r\n  production: false\r\n}"
                 }
             ]
         },
@@ -1064,7 +1049,7 @@
             ],
             "src/stories/util.ts": [
                 {
-                    "name": "DefaultStoryConfig",
+                    "name": "componentStoriesSetup",
                     "file": "src/stories/util.ts",
                     "ctype": "miscellaneous",
                     "subtype": "function",
@@ -1235,29 +1220,12 @@
                     "description": "",
                     "file": "src/app/card/card.component.ts"
                 }
-            ],
-            "src/stories/util.ts": [
-                {
-                    "name": "Test",
-                    "childs": [
-                        {
-                            "name": "Lol"
-                        },
-                        {
-                            "name": "Rofl"
-                        }
-                    ],
-                    "ctype": "miscellaneous",
-                    "subtype": "enum",
-                    "description": "",
-                    "file": "src/stories/util.ts"
-                }
             ]
         },
         "groupedTypeAliases": {
             "src/stories/util.ts": [
                 {
-                    "name": "ControlTypeInterface",
+                    "name": "ControlType",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
                     "rawtype": "\"array\" | \"boolean\" | \"number\" | \"range\" | \"object\" | \"radio\" | \"inline-radio\" | \"check\" | \"\tinline-check\" | \"select\" | \"multi-select\" | \"text\" | \"color\" | \"date\"",
@@ -1270,7 +1238,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 4,
+        "count": 5,
         "status": "low",
         "files": [
             {
@@ -1471,16 +1439,16 @@
                 "filePath": "src/stories/util.ts",
                 "type": "interface",
                 "linktype": "interface",
-                "name": "DefaultConfigInterface",
-                "coveragePercent": 0,
-                "coverageCount": "0/7",
-                "status": "low"
+                "name": "ComponentStoriesConfig",
+                "coveragePercent": 28,
+                "coverageCount": "2/7",
+                "status": "medium"
             },
             {
                 "filePath": "src/stories/util.ts",
                 "type": "interface",
                 "linktype": "interface",
-                "name": "PropertiesInterface",
+                "name": "PropertyConfig",
                 "coveragePercent": 0,
                 "coverageCount": "0/13",
                 "status": "low"
@@ -1489,7 +1457,7 @@
                 "filePath": "src/stories/util.ts",
                 "type": "function",
                 "linksubtype": "function",
-                "name": "DefaultStoryConfig",
+                "name": "componentStoriesSetup",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

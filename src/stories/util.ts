@@ -1,7 +1,8 @@
 import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';
 
-export type ControlTypeInterface = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '	inline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';
-export interface PropertiesInterface {
+export type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '	inline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';
+
+export interface PropertyConfig {
 
     name: string;
     description?: string;
@@ -13,29 +14,46 @@ export interface PropertiesInterface {
 
     category?: string;
 
-    control?: ControlTypeInterface;
+    control?: ControlType;
     options?: string[];
 
     minRange?: number;
     maxRange?: number;
     stepRange?: number;
 }
-export interface DefaultConfigInterface {
 
+export interface ComponentStoriesConfig {
+    /**
+     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy
+     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)
+     */
     title: string;
+
+    /**
+     * The component that should be used for the stories
+     */
     component?: any;
     includeStories?: string[];
 
+    /**
+     * Provide any additional declarations that might be needed to run the stories here.
+     */
     declarations?: any[];
+    /**
+     * Provide any additional imports that might be needed to run the stories here.
+     */
     imports?: any[];
 
-    properties?: PropertiesInterface[];
+    /**
+     * additional configuration for the properties of the component. Use this to customize the controls + docs for the component further and fix anything Story Book got wrong (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)
+     */
+    properties?: PropertyConfig[];
 }
 
-export function DefaultStoryConfig(config: DefaultConfigInterface): Meta {
+export function componentStoriesSetup(config: ComponentStoriesConfig): Meta {
     const argTypesObject: ArgTypes = {};
 
-    config.properties.forEach((property: PropertiesInterface) => {
+    config.properties.forEach((property: PropertyConfig) => {
         argTypesObject[property.name] = {
             ...property,
             type: { name: `${property.type}`, required: property.require },

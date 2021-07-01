@@ -2,11 +2,11 @@ import { ButtonSize } from './button.component';
 // also exported from '@storybook/angular' if you can deal with breaking changes in 6.1
 import { Story, Meta } from '@storybook/angular/types-6-0';
 import { ButtonComponent } from './button.component';
-import { DefaultStoryConfig } from 'src/stories/util';
+import { componentStoriesSetup } from 'src/stories/util';
 
 
 // tslint:disable-next-line:align
-export default DefaultStoryConfig({
+export default componentStoriesSetup({
   title: 'Story Book/Button',
   component: ButtonComponent,
   properties: [

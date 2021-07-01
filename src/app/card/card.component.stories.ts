@@ -1,10 +1,10 @@
 import { CardComponent, CardSize } from './card.component';
 import { Story } from '@storybook/angular';
 import { ButtonComponent } from '../button/button.component';
-import { DefaultStoryConfig, enumMemberAsLabel, enumMembersAsLabels } from 'src/stories/util';
+import { componentStoriesSetup, enumMemberAsLabel, enumMembersAsLabels } from 'src/stories/util';
 
 
-export default DefaultStoryConfig({
+export default componentStoriesSetup({
   title: 'Story Book/Card',
   component: CardComponent,
   declarations: [ButtonComponent],
