@@ -1,7 +1,7 @@
 import { CardComponent, CardSize } from './card.component';
 import { Story } from '@storybook/angular';
 import { ButtonComponent } from '../button/button.component';
-import { componentStoriesSetup, createStoryWithConfig, enumMemberAsLabel, enumMembersAsLabels, enumValues } from 'src/stories/util';
+import { componentStoriesSetup, createStoryTemplate, createStoryWithConfig, enumMemberAsLabel, enumMembersAsLabels, enumValues } from 'src/stories/util';
 
 
 export default componentStoriesSetup({
@@ -45,79 +45,91 @@ export default componentStoriesSetup({
   ]
 });
 
-
-
-const Template: Story<CardComponent> = (args: CardComponent) => ({
-    template: `
-        <app-card
-            [title]="title" [size]="size" [isCircleImage]="isCircleImage">
-            {{content}}
-        </app-card>
-    `,
-    props: args,
+const storyTemplate: Story<CardComponent> = createStoryTemplate<CardComponent>({
+  htmlTemplate: `<app-card [title]="title" [size]="size" [isCircleImage]="isCircleImage">{{content}}</app-card>`
 });
 
-
-
 export const CircleImage = createStoryWithConfig({
-  template : Template,
-  storyDescription : 'test',
-  codeSnippet : `
-      <app-card
-        [title]="title" [size]="size" [isCircleImage]="isCircleImage">
-        content
-      </app-card>
-`
+  template: storyTemplate,
+  codeSnippet: `<app-card
+  title="Circle Image"
+  size="CardSize.Big"
+  [isCircleImage]="true"
+  (cardClicked)="cardClicked($event)">
+  Lorem ipsum dolor sit</app-card>`
 });
 
 CircleImage.args = {
-    isCircleImage : true,
-    title: 'Circle Image',
+  isCircleImage: true,
+  title: 'Circle Image'
 };
 
 
 export const RectangleImage = createStoryWithConfig({
-  template : Template,
-  storyDescription : 'test',
-  codeSnippet : 'test'
+  template: storyTemplate,
+  storyDescription: 'This is some example **text**.',
+  codeSnippet: `
+  <app-card
+  title="Rectangle Image"
+  size="CardSize.Big"
+  [isCircleImage]="false"
+  (cardClicked)="cardClicked($event)"
+>Lorem ipsum dolor sit</app-card>
+`
 });
 
 RectangleImage.args = {
-    isCircleImage : false,
-    title: 'Rectangle Image',
+  isCircleImage: false,
+  title: 'Rectangle Image',
 };
 
 
 export const Big = createStoryWithConfig({
-  template : Template,
-  storyDescription : 'test',
-  codeSnippet : 'test'
+  template: storyTemplate,
+  storyDescription: 'test',
+  codeSnippet: `<app-card
+  title="Circle Image"
+  size="big"
+  [isCircleImage]="true"
+  (cardClicked)="cardClicked($event)"
+>Lorem ipsum dolor sit</app-card>`
 });
 
 Big.args = {
-    ...CircleImage.args,
-    size: CardSize.Big,
+  ...CircleImage.args,
+  size: CardSize.Big,
 };
 
 
 export const Normal = createStoryWithConfig({
-  template : Template,
-  storyDescription : 'test',
-  codeSnippet : 'test'
+  template: storyTemplate,
+  storyDescription: 'test',
+  codeSnippet: `<app-card
+  title="Circle Image"
+  size="normal"
+  [isCircleImage]="true"
+  (cardClicked)="cardClicked($event)"
+>Lorem ipsum dolor sit</app-card>`
 });
 
 Normal.args = {
-    ...CircleImage.args,
-    size: CardSize.Normal,
+  ...CircleImage.args,
+  size: CardSize.Normal,
 };
 
 export const Small = createStoryWithConfig({
-  template : Template,
-  storyDescription : 'test',
-  codeSnippet : 'test'
+  template: storyTemplate,
+  storyDescription: 'test',
+  codeSnippet: `
+  <app-card
+    title="Circle Image"
+    size="small"
+    [isCircleImage]="true"
+    (cardClicked)="cardClicked($event)"
+  >Lorem ipsum dolor sit</app-card>`
 });
 
 Small.args = {
-    ...CircleImage.args,
-    size: CardSize.Small,
+  ...CircleImage.args,
+  size: CardSize.Small,
 };

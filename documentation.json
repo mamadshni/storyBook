@@ -92,10 +92,10 @@
         },
         {
             "name": "ComponentStoriesConfig",
-            "id": "interface-ComponentStoriesConfig-db846713330e3f44f9cae7d6333ea23b",
+            "id": "interface-ComponentStoriesConfig-aeeed950c51329513604cb00e65a5627",
             "file": "src/stories/util.ts",
             "type": "interface",
-            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n    labels?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    /**\r\n     * Provide any additional declarations that might be needed to run the stories here.\r\n     */\r\n    declarations?: any[];\r\n    /**\r\n     * Provide any additional imports that might be needed to run the stories here.\r\n     */\r\n    imports?: any[];\r\n\r\n    /**\r\n     * additional configuration for the properties of the component.\r\n     * Use this to customize the controls + docs for the component\r\n     * further and fix anything Story Book got wrong\r\n     * (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)\r\n     */\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            labels: property.labels,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n// https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) {\r\n        return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n    }\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\n// tslint:disable-next-line:max-line-length\r\nexport function enumMemberAsLabel <T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) {\r\n        return `${enumName}.${enumKey}`;\r\n    }\r\n    return enumKey;\r\n}\r\n\r\n// https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number): keyof T|null {\r\n    const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}\r\n\r\nexport function enumValues(someEnum: any): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n\r\n    return Object.values(someEnum) as string[];\r\n}\r\n",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes, Story } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n    labels?: { [key: string]: string };\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    /**\r\n     * Provide any additional declarations that might be needed to run the stories here.\r\n     */\r\n    declarations?: any[];\r\n    /**\r\n     * Provide any additional imports that might be needed to run the stories here.\r\n     */\r\n    imports?: any[];\r\n\r\n    /**\r\n     * additional configuration for the properties of the component.\r\n     * Use this to customize the controls + docs for the component\r\n     * further and fix anything Story Book got wrong\r\n     * (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)\r\n     */\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\n\r\nexport interface StoryConfig {\r\n    /**\r\n     * A story template the new story should be based on\r\n     */\r\n    template: Story;\r\n\r\n    /**\r\n     * The HTML code snippet; will be prettified automatically\r\n     */\r\n    codeSnippet?: string;\r\n\r\n    /**\r\n     * A description for the story; markdown is supported.\r\n     */\r\n    storyDescription?: string;\r\n}\r\n\r\nexport interface TemplateConfig {\r\n    /**\r\n     * HTML code to use by Story Book when creating the component (only necessary if content projection is used)\r\n     */\r\n    htmlTemplate?: string;\r\n}\r\n\r\n\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null,\r\n                labels: property.labels,\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n\r\n\r\nexport function createStoryTemplate<T>(config?: TemplateConfig): Story<T> {\r\n    return (args: T) => ({\r\n        props: args,\r\n        template: config?.htmlTemplate,\r\n    });\r\n}\r\n\r\n\r\n\r\nexport function createStoryWithConfig(config: StoryConfig): Story {\r\n    const reference: Story = config.template.bind({});\r\n\r\n    reference.parameters = {\r\n        docs: {\r\n            description: {\r\n                story: config.storyDescription,\r\n            },\r\n            source: {\r\n                code: prettifyHtml(config.codeSnippet)\r\n            }\r\n        }\r\n    };\r\n    return reference;\r\n}\r\n\r\n\r\n\r\n// https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string): { [key: string]: string } {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    return Object.entries(someEnum)\r\n        .filter(([key, value]) => isNaN(+key))\r\n        .reduce((obj, [key, value]: [string, string]) => {\r\n            obj[value] = `${enumName ? `${enumName}.` : ''}${key}`;\r\n            return obj;\r\n        }, {});\r\n}\r\n\r\n\r\n\r\n// tslint:disable-next-line:max-line-length\r\nexport function enumMemberAsLabel<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    return `${enumName ? `${enumName}.` : ''}${enumKey}`;\r\n}\r\n\r\n// https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number): keyof T | null {\r\n    const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}\r\n\r\nexport function enumValues(someEnum: any): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n\r\n    return Object.values(someEnum).filter(value => isNaN(+value)) as string[];\r\n}\r\n\r\nexport function prettifyHtml(html: string): string {\r\n    const div = document.createElement('div');\r\n    div.innerHTML = html.trim()\r\n        // .replace(/^\\s+|\\s+$/gm, '')\r\n        .split('\\n')\r\n        .map(str => !str.startsWith('<')? ' ' + str : str)//we could lose syntax highlighting if some char that is not an opening tag is on its own line in original text (it would then stick together with the tag name for example), so we add white space \r\n        .join('');\r\n    return (formatHtml(div, 0).innerHTML).trim();\r\n}\r\n\r\n\r\nexport function formatHtml(node: HTMLElement, level: number): HTMLElement {\r\n\r\n    const indentBefore = new Array(level++ + 1).join('    ');\r\n    const indentAfter = new Array(level - 1).join('    ');\r\n    let textNode: Text;\r\n\r\n    // tslint:disable-next-line:prefer-for-of\r\n    for (let i = 0; i < node.children.length; i++) {\r\n\r\n        textNode = document.createTextNode(`\\n${indentBefore}`);\r\n        node.insertBefore(textNode, node.children[i]);\r\n\r\n        formatHtml(node.children[i] as HTMLElement, level);\r\n\r\n        if (node.lastElementChild === node.children[i]) {\r\n            textNode = document.createTextNode('\\n' + indentAfter);\r\n            node.appendChild(textNode);\r\n        }\r\n    }\r\n\r\n    return node;\r\n}",
             "properties": [
                 {
                     "name": "component",
@@ -146,10 +146,10 @@
         },
         {
             "name": "PropertyConfig",
-            "id": "interface-PropertyConfig-db846713330e3f44f9cae7d6333ea23b",
+            "id": "interface-PropertyConfig-aeeed950c51329513604cb00e65a5627",
             "file": "src/stories/util.ts",
             "type": "interface",
-            "sourceCode": "import { Meta, moduleMetadata, ArgTypes } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n    labels?: string[];\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    /**\r\n     * Provide any additional declarations that might be needed to run the stories here.\r\n     */\r\n    declarations?: any[];\r\n    /**\r\n     * Provide any additional imports that might be needed to run the stories here.\r\n     */\r\n    imports?: any[];\r\n\r\n    /**\r\n     * additional configuration for the properties of the component.\r\n     * Use this to customize the controls + docs for the component\r\n     * further and fix anything Story Book got wrong\r\n     * (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)\r\n     */\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            labels: property.labels,\r\n            control: {\r\n                type: property.control || null\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n// https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    if (enumName) {\r\n        return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string')\r\n        .map(value => `${enumName}.${value}`) as string[];\r\n    }\r\n\r\n    return Object.keys(someEnum)\r\n        .filter(value => typeof value === 'string') as string[];\r\n}\r\n\r\n// tslint:disable-next-line:max-line-length\r\nexport function enumMemberAsLabel <T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    if (enumName) {\r\n        return `${enumName}.${enumKey}`;\r\n    }\r\n    return enumKey;\r\n}\r\n\r\n// https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number): keyof T|null {\r\n    const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}\r\n\r\nexport function enumValues(someEnum: any): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n\r\n    return Object.values(someEnum) as string[];\r\n}\r\n",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes, Story } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n    labels?: { [key: string]: string };\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    /**\r\n     * Provide any additional declarations that might be needed to run the stories here.\r\n     */\r\n    declarations?: any[];\r\n    /**\r\n     * Provide any additional imports that might be needed to run the stories here.\r\n     */\r\n    imports?: any[];\r\n\r\n    /**\r\n     * additional configuration for the properties of the component.\r\n     * Use this to customize the controls + docs for the component\r\n     * further and fix anything Story Book got wrong\r\n     * (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)\r\n     */\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\n\r\nexport interface StoryConfig {\r\n    /**\r\n     * A story template the new story should be based on\r\n     */\r\n    template: Story;\r\n\r\n    /**\r\n     * The HTML code snippet; will be prettified automatically\r\n     */\r\n    codeSnippet?: string;\r\n\r\n    /**\r\n     * A description for the story; markdown is supported.\r\n     */\r\n    storyDescription?: string;\r\n}\r\n\r\nexport interface TemplateConfig {\r\n    /**\r\n     * HTML code to use by Story Book when creating the component (only necessary if content projection is used)\r\n     */\r\n    htmlTemplate?: string;\r\n}\r\n\r\n\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null,\r\n                labels: property.labels,\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n\r\n\r\nexport function createStoryTemplate<T>(config?: TemplateConfig): Story<T> {\r\n    return (args: T) => ({\r\n        props: args,\r\n        template: config?.htmlTemplate,\r\n    });\r\n}\r\n\r\n\r\n\r\nexport function createStoryWithConfig(config: StoryConfig): Story {\r\n    const reference: Story = config.template.bind({});\r\n\r\n    reference.parameters = {\r\n        docs: {\r\n            description: {\r\n                story: config.storyDescription,\r\n            },\r\n            source: {\r\n                code: prettifyHtml(config.codeSnippet)\r\n            }\r\n        }\r\n    };\r\n    return reference;\r\n}\r\n\r\n\r\n\r\n// https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string): { [key: string]: string } {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    return Object.entries(someEnum)\r\n        .filter(([key, value]) => isNaN(+key))\r\n        .reduce((obj, [key, value]: [string, string]) => {\r\n            obj[value] = `${enumName ? `${enumName}.` : ''}${key}`;\r\n            return obj;\r\n        }, {});\r\n}\r\n\r\n\r\n\r\n// tslint:disable-next-line:max-line-length\r\nexport function enumMemberAsLabel<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    return `${enumName ? `${enumName}.` : ''}${enumKey}`;\r\n}\r\n\r\n// https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number): keyof T | null {\r\n    const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}\r\n\r\nexport function enumValues(someEnum: any): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n\r\n    return Object.values(someEnum).filter(value => isNaN(+value)) as string[];\r\n}\r\n\r\nexport function prettifyHtml(html: string): string {\r\n    const div = document.createElement('div');\r\n    div.innerHTML = html.trim()\r\n        // .replace(/^\\s+|\\s+$/gm, '')\r\n        .split('\\n')\r\n        .map(str => !str.startsWith('<')? ' ' + str : str)//we could lose syntax highlighting if some char that is not an opening tag is on its own line in original text (it would then stick together with the tag name for example), so we add white space \r\n        .join('');\r\n    return (formatHtml(div, 0).innerHTML).trim();\r\n}\r\n\r\n\r\nexport function formatHtml(node: HTMLElement, level: number): HTMLElement {\r\n\r\n    const indentBefore = new Array(level++ + 1).join('    ');\r\n    const indentAfter = new Array(level - 1).join('    ');\r\n    let textNode: Text;\r\n\r\n    // tslint:disable-next-line:prefer-for-of\r\n    for (let i = 0; i < node.children.length; i++) {\r\n\r\n        textNode = document.createTextNode(`\\n${indentBefore}`);\r\n        node.insertBefore(textNode, node.children[i]);\r\n\r\n        formatHtml(node.children[i] as HTMLElement, level);\r\n\r\n        if (node.lastElementChild === node.children[i]) {\r\n            textNode = document.createTextNode('\\n' + indentAfter);\r\n            node.appendChild(textNode);\r\n        }\r\n    }\r\n\r\n    return node;\r\n}",
             "properties": [
                 {
                     "name": "category",
@@ -188,7 +188,7 @@
                 },
                 {
                     "name": "labels",
-                    "type": "string[]",
+                    "type": "literal type",
                     "optional": true,
                     "description": "",
                     "line": 19
@@ -246,16 +246,68 @@
             "indexSignatures": [],
             "kind": 150,
             "methods": []
+        },
+        {
+            "name": "StoryConfig",
+            "id": "interface-StoryConfig-aeeed950c51329513604cb00e65a5627",
+            "file": "src/stories/util.ts",
+            "type": "interface",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes, Story } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n    labels?: { [key: string]: string };\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    /**\r\n     * Provide any additional declarations that might be needed to run the stories here.\r\n     */\r\n    declarations?: any[];\r\n    /**\r\n     * Provide any additional imports that might be needed to run the stories here.\r\n     */\r\n    imports?: any[];\r\n\r\n    /**\r\n     * additional configuration for the properties of the component.\r\n     * Use this to customize the controls + docs for the component\r\n     * further and fix anything Story Book got wrong\r\n     * (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)\r\n     */\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\n\r\nexport interface StoryConfig {\r\n    /**\r\n     * A story template the new story should be based on\r\n     */\r\n    template: Story;\r\n\r\n    /**\r\n     * The HTML code snippet; will be prettified automatically\r\n     */\r\n    codeSnippet?: string;\r\n\r\n    /**\r\n     * A description for the story; markdown is supported.\r\n     */\r\n    storyDescription?: string;\r\n}\r\n\r\nexport interface TemplateConfig {\r\n    /**\r\n     * HTML code to use by Story Book when creating the component (only necessary if content projection is used)\r\n     */\r\n    htmlTemplate?: string;\r\n}\r\n\r\n\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null,\r\n                labels: property.labels,\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n\r\n\r\nexport function createStoryTemplate<T>(config?: TemplateConfig): Story<T> {\r\n    return (args: T) => ({\r\n        props: args,\r\n        template: config?.htmlTemplate,\r\n    });\r\n}\r\n\r\n\r\n\r\nexport function createStoryWithConfig(config: StoryConfig): Story {\r\n    const reference: Story = config.template.bind({});\r\n\r\n    reference.parameters = {\r\n        docs: {\r\n            description: {\r\n                story: config.storyDescription,\r\n            },\r\n            source: {\r\n                code: prettifyHtml(config.codeSnippet)\r\n            }\r\n        }\r\n    };\r\n    return reference;\r\n}\r\n\r\n\r\n\r\n// https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string): { [key: string]: string } {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    return Object.entries(someEnum)\r\n        .filter(([key, value]) => isNaN(+key))\r\n        .reduce((obj, [key, value]: [string, string]) => {\r\n            obj[value] = `${enumName ? `${enumName}.` : ''}${key}`;\r\n            return obj;\r\n        }, {});\r\n}\r\n\r\n\r\n\r\n// tslint:disable-next-line:max-line-length\r\nexport function enumMemberAsLabel<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    return `${enumName ? `${enumName}.` : ''}${enumKey}`;\r\n}\r\n\r\n// https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number): keyof T | null {\r\n    const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}\r\n\r\nexport function enumValues(someEnum: any): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n\r\n    return Object.values(someEnum).filter(value => isNaN(+value)) as string[];\r\n}\r\n\r\nexport function prettifyHtml(html: string): string {\r\n    const div = document.createElement('div');\r\n    div.innerHTML = html.trim()\r\n        // .replace(/^\\s+|\\s+$/gm, '')\r\n        .split('\\n')\r\n        .map(str => !str.startsWith('<')? ' ' + str : str)//we could lose syntax highlighting if some char that is not an opening tag is on its own line in original text (it would then stick together with the tag name for example), so we add white space \r\n        .join('');\r\n    return (formatHtml(div, 0).innerHTML).trim();\r\n}\r\n\r\n\r\nexport function formatHtml(node: HTMLElement, level: number): HTMLElement {\r\n\r\n    const indentBefore = new Array(level++ + 1).join('    ');\r\n    const indentAfter = new Array(level - 1).join('    ');\r\n    let textNode: Text;\r\n\r\n    // tslint:disable-next-line:prefer-for-of\r\n    for (let i = 0; i < node.children.length; i++) {\r\n\r\n        textNode = document.createTextNode(`\\n${indentBefore}`);\r\n        node.insertBefore(textNode, node.children[i]);\r\n\r\n        formatHtml(node.children[i] as HTMLElement, level);\r\n\r\n        if (node.lastElementChild === node.children[i]) {\r\n            textNode = document.createTextNode('\\n' + indentAfter);\r\n            node.appendChild(textNode);\r\n        }\r\n    }\r\n\r\n    return node;\r\n}",
+            "properties": [
+                {
+                    "name": "codeSnippet",
+                    "type": "string",
+                    "optional": true,
+                    "description": "<p>The HTML code snippet; will be prettified automatically</p>\n",
+                    "line": 67
+                },
+                {
+                    "name": "storyDescription",
+                    "type": "string",
+                    "optional": true,
+                    "description": "<p>A description for the story; markdown is supported.</p>\n",
+                    "line": 72
+                },
+                {
+                    "name": "template",
+                    "type": "Story",
+                    "optional": false,
+                    "description": "<p>A story template the new story should be based on</p>\n",
+                    "line": 62
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "TemplateConfig",
+            "id": "interface-TemplateConfig-aeeed950c51329513604cb00e65a5627",
+            "file": "src/stories/util.ts",
+            "type": "interface",
+            "sourceCode": "import { Meta, moduleMetadata, ArgTypes, Story } from '@storybook/angular';\r\n\r\nexport type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '\tinline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';\r\n\r\nexport interface PropertyConfig {\r\n\r\n    name: string;\r\n    description?: string;\r\n    defaultValue?: string;\r\n\r\n    disable?: boolean;\r\n    require?: boolean;\r\n    type?: any;\r\n\r\n    category?: string;\r\n\r\n    control?: ControlType;\r\n    options?: string[];\r\n    labels?: { [key: string]: string };\r\n\r\n    minRange?: number;\r\n    maxRange?: number;\r\n    stepRange?: number;\r\n}\r\n\r\nexport interface ComponentStoriesConfig {\r\n    /**\r\n     * Title to use for the stories in the sidebar; slashes can be used to setup a hierarchy\r\n     * (e.g. use 'StoryBook/Button' if the 'Button' stories should be under the 'Story Book' heading)\r\n     */\r\n    title: string;\r\n\r\n    /**\r\n     * The component that should be used for the stories\r\n     */\r\n    component?: any;\r\n    includeStories?: string[];\r\n\r\n    /**\r\n     * Provide any additional declarations that might be needed to run the stories here.\r\n     */\r\n    declarations?: any[];\r\n    /**\r\n     * Provide any additional imports that might be needed to run the stories here.\r\n     */\r\n    imports?: any[];\r\n\r\n    /**\r\n     * additional configuration for the properties of the component.\r\n     * Use this to customize the controls + docs for the component\r\n     * further and fix anything Story Book got wrong\r\n     * (e.g. add a default value that wasn't added automatically, use different control for picking possible property values etc.)\r\n     */\r\n    properties?: PropertyConfig[];\r\n}\r\n\r\n\r\nexport interface StoryConfig {\r\n    /**\r\n     * A story template the new story should be based on\r\n     */\r\n    template: Story;\r\n\r\n    /**\r\n     * The HTML code snippet; will be prettified automatically\r\n     */\r\n    codeSnippet?: string;\r\n\r\n    /**\r\n     * A description for the story; markdown is supported.\r\n     */\r\n    storyDescription?: string;\r\n}\r\n\r\nexport interface TemplateConfig {\r\n    /**\r\n     * HTML code to use by Story Book when creating the component (only necessary if content projection is used)\r\n     */\r\n    htmlTemplate?: string;\r\n}\r\n\r\n\r\n\r\nexport function componentStoriesSetup(config: ComponentStoriesConfig): Meta {\r\n    const argTypesObject: ArgTypes = {};\r\n\r\n    config.properties.forEach((property: PropertyConfig) => {\r\n        argTypesObject[property.name] = {\r\n            ...property,\r\n            type: { name: `${property.type}`, required: property.require },\r\n            defaultValue: property.defaultValue,\r\n            description: property.description,\r\n            table: {\r\n                disable: property.disable,\r\n                category: property.category,\r\n                type: { summary: `${property.type}` },\r\n                defaultValue: { summary: property.defaultValue },\r\n            },\r\n            options: property.options,\r\n            control: {\r\n                type: property.control || null,\r\n                labels: property.labels,\r\n            }\r\n        };\r\n    });\r\n\r\n    return {\r\n        title: config.title,\r\n        component: config.component,\r\n        decorators: [\r\n            moduleMetadata({\r\n                declarations: config.declarations,\r\n                imports: config.imports\r\n            }),\r\n        ],\r\n        argTypes: argTypesObject\r\n    } as Meta;\r\n}\r\n\r\n\r\n\r\nexport function createStoryTemplate<T>(config?: TemplateConfig): Story<T> {\r\n    return (args: T) => ({\r\n        props: args,\r\n        template: config?.htmlTemplate,\r\n    });\r\n}\r\n\r\n\r\n\r\nexport function createStoryWithConfig(config: StoryConfig): Story {\r\n    const reference: Story = config.template.bind({});\r\n\r\n    reference.parameters = {\r\n        docs: {\r\n            description: {\r\n                story: config.storyDescription,\r\n            },\r\n            source: {\r\n                code: prettifyHtml(config.codeSnippet)\r\n            }\r\n        }\r\n    };\r\n    return reference;\r\n}\r\n\r\n\r\n\r\n// https://stackoverflow.com/a/43091709/13727176\r\nexport function enumMembersAsLabels(someEnum: any, enumName?: string): { [key: string]: string } {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n    return Object.entries(someEnum)\r\n        .filter(([key, value]) => isNaN(+key))\r\n        .reduce((obj, [key, value]: [string, string]) => {\r\n            obj[value] = `${enumName ? `${enumName}.` : ''}${key}`;\r\n            return obj;\r\n        }, {});\r\n}\r\n\r\n\r\n\r\n// tslint:disable-next-line:max-line-length\r\nexport function enumMemberAsLabel<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {\r\n    const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);\r\n    return `${enumName ? `${enumName}.` : ''}${enumKey}`;\r\n}\r\n\r\n// https://stackoverflow.com/a/54297863/13727176\r\nfunction getEnumKeyByEnumValue<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number): keyof T | null {\r\n    const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);\r\n    return keys.length > 0 ? keys[0] : null;\r\n}\r\n\r\nexport function enumValues(someEnum: any): string[] {\r\n    // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?\r\n\r\n    return Object.values(someEnum).filter(value => isNaN(+value)) as string[];\r\n}\r\n\r\nexport function prettifyHtml(html: string): string {\r\n    const div = document.createElement('div');\r\n    div.innerHTML = html.trim()\r\n        // .replace(/^\\s+|\\s+$/gm, '')\r\n        .split('\\n')\r\n        .map(str => !str.startsWith('<')? ' ' + str : str)//we could lose syntax highlighting if some char that is not an opening tag is on its own line in original text (it would then stick together with the tag name for example), so we add white space \r\n        .join('');\r\n    return (formatHtml(div, 0).innerHTML).trim();\r\n}\r\n\r\n\r\nexport function formatHtml(node: HTMLElement, level: number): HTMLElement {\r\n\r\n    const indentBefore = new Array(level++ + 1).join('    ');\r\n    const indentAfter = new Array(level - 1).join('    ');\r\n    let textNode: Text;\r\n\r\n    // tslint:disable-next-line:prefer-for-of\r\n    for (let i = 0; i < node.children.length; i++) {\r\n\r\n        textNode = document.createTextNode(`\\n${indentBefore}`);\r\n        node.insertBefore(textNode, node.children[i]);\r\n\r\n        formatHtml(node.children[i] as HTMLElement, level);\r\n\r\n        if (node.lastElementChild === node.children[i]) {\r\n            textNode = document.createTextNode('\\n' + indentAfter);\r\n            node.appendChild(textNode);\r\n        }\r\n    }\r\n\r\n    return node;\r\n}",
+            "properties": [
+                {
+                    "name": "htmlTemplate",
+                    "type": "string",
+                    "optional": true,
+                    "description": "<p>HTML code to use by Story Book when creating the component (only necessary if content projection is used)</p>\n",
+                    "line": 79
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
         }
     ],
     "injectables": [],
     "classes": [
         {
             "name": "AppPage",
-            "id": "class-AppPage-ee2067dfb1c303f41003aea7d82d51e0",
+            "id": "class-AppPage-e3ea1f4631d62652a5623d3ab757b2fc",
             "file": "e2e/src/app.po.ts",
             "type": "class",
-            "sourceCode": "import { browser, by, element } from 'protractor';\n\nexport class AppPage {\n  async navigateTo(): Promise<unknown> {\n    return browser.get(browser.baseUrl);\n  }\n\n  async getTitleText(): Promise<string> {\n    return element(by.css('app-root .content span')).getText();\n  }\n}\n",
+            "sourceCode": "import { browser, by, element } from 'protractor';\r\n\r\nexport class AppPage {\r\n  async navigateTo(): Promise<unknown> {\r\n    return browser.get(browser.baseUrl);\r\n  }\r\n\r\n  async getTitleText(): Promise<string> {\r\n    return element(by.css('app-root .content span')).getText();\r\n  }\r\n}\r\n",
             "properties": [],
             "methods": [
                 {
@@ -292,7 +344,7 @@
     "components": [
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-58080be959197e7db6611744dc77c238",
+            "id": "component-AppComponent-d8111cd7a2dde25a4f47d74c15c83f41",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -337,7 +389,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { CardSize } from './card/card.component';\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent {\n\n  readonly cardSize = CardSize;\n  title = 'storyBook';\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { CardSize } from './card/card.component';\r\n\r\n@Component({\r\n  selector: 'app-root',\r\n  templateUrl: './app.component.html',\r\n  styleUrls: ['./app.component.scss']\r\n})\r\nexport class AppComponent {\r\n\r\n  readonly cardSize = CardSize;\r\n  title = 'storyBook';\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -346,7 +398,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<app-card\n  [title]=\"'title'\"\n  [size]= \"cardSize.Normal\"\n  [isCircleImage]=\"false\">\nLorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, veniam distinctio. Officiis possimus cumque repellendus voluptas praesentium accusamus perspiciatis ipsa?</app-card>"
+            "templateData": "<app-card\r\n  [title]=\"'title'\"\r\n  [size]= \"cardSize.Normal\"\r\n  [isCircleImage]=\"false\">\r\nLorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, veniam distinctio. Officiis possimus cumque repellendus voluptas praesentium accusamus perspiciatis ipsa?</app-card>"
         },
         {
             "name": "ButtonComponent",
@@ -513,7 +565,7 @@
                 "args": [],
                 "line": 42
             },
-            "templateData": "\n<img class=\"img\" src=\"https://cdn.wallpaperjam.com/static/images/m/d6/6f/d66f68e5f47e64427ee0cf155a6f918959491a7a.jpg\" [class.circle-image]= 'isCircleImage'>\n\n<h4 class=\"title\">{{title}}</h4>\n\n<p class=\"dis\">\n    <ng-content></ng-content> \n</p>\n\n<app-button\n  class=\"button\"\n  [isPrimary] = \"false\"\n  [size] = \"buttonSize.Small\"\n  [label] = \"'button'\"\n  (clicked) = \"onClick()\"></app-button>\n\n"
+            "templateData": "\r\n<img class=\"img\" src=\"https://cdn.wallpaperjam.com/static/images/m/d6/6f/d66f68e5f47e64427ee0cf155a6f918959491a7a.jpg\" [class.circle-image]= 'isCircleImage'>\r\n\r\n<h4 class=\"title\">{{title}}</h4>\r\n\r\n<p class=\"dis\">\r\n    <ng-content></ng-content> \r\n</p>\r\n\r\n<app-button\r\n  class=\"button\"\r\n  [isPrimary] = \"false\"\r\n  [size] = \"buttonSize.Small\"\r\n  [label] = \"'button'\"\r\n  (clicked) = \"onClick()\"></app-button>\r\n\r\n"
         }
     ],
     "modules": [
@@ -569,7 +621,7 @@
                 "subtype": "variable",
                 "file": "src/app/card/card.component.stories.ts",
                 "type": "",
-                "defaultValue": "Template.bind({})"
+                "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'test',\r\n  codeSnippet: 'test'\r\n})"
             },
             {
                 "name": "Big",
@@ -585,7 +637,7 @@
                 "subtype": "variable",
                 "file": "src/app/card/card.component.stories.ts",
                 "type": "",
-                "defaultValue": "Template.bind({})"
+                "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  codeSnippet: ''\r\n})"
             },
             {
                 "name": "context",
@@ -599,17 +651,17 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.ts",
+                "file": "src/environments/environment.prod.ts",
                 "type": "object",
-                "defaultValue": "{\n  production: false\n}"
+                "defaultValue": "{\r\n  production: true\r\n}"
             },
             {
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.prod.ts",
+                "file": "src/environments/environment.ts",
                 "type": "object",
-                "defaultValue": "{\n  production: true\n}"
+                "defaultValue": "{\r\n  production: false\r\n}"
             },
             {
                 "name": "Normal",
@@ -617,7 +669,7 @@
                 "subtype": "variable",
                 "file": "src/app/card/card.component.stories.ts",
                 "type": "",
-                "defaultValue": "Template.bind({})"
+                "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'test',\r\n  codeSnippet: 'test'\r\n})"
             },
             {
                 "name": "Normal",
@@ -641,7 +693,7 @@
                 "subtype": "variable",
                 "file": "src/app/card/card.component.stories.ts",
                 "type": "",
-                "defaultValue": "Template.bind({})"
+                "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'This is some example **text**.',\r\n  codeSnippet: `\r\n  <app-card\r\n  title=\"Rectangle Image\"\r\n  size=\"CardSize.Big\"\r\n  [isCircleImage]=\"false\"\r\n  (cardClicked)=\"cardClicked($event)\"\r\n>Lorem ipsum dolor sit</app-card>\r\n`\r\n})"
             },
             {
                 "name": "require",
@@ -664,7 +716,7 @@
                 "subtype": "variable",
                 "file": "src/app/card/card.component.stories.ts",
                 "type": "",
-                "defaultValue": "Template.bind({})"
+                "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'test',\r\n  codeSnippet: 'test'\r\n})"
             },
             {
                 "name": "Small",
@@ -680,7 +732,7 @@
                 "subtype": "variable",
                 "file": "src/app/card/card.component.stories.ts",
                 "type": "Story<CardComponent>",
-                "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
+                "defaultValue": "createStoryTemplate<CardComponent>({\r\n  htmlTemplate: `<app-card [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">{{content}}</app-card>`\r\n})"
             },
             {
                 "name": "Template",
@@ -724,6 +776,50 @@
                     }
                 ],
                 "returnType": "Meta",
+                "jsdoctags": [
+                    {
+                        "name": "config",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "createStoryTemplate",
+                "file": "src/stories/util.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "config",
+                        "optional": true
+                    }
+                ],
+                "returnType": "Story<T>",
+                "jsdoctags": [
+                    {
+                        "name": "config",
+                        "optional": true,
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "createStoryWithConfig",
+                "file": "src/stories/util.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "config"
+                    }
+                ],
+                "returnType": "Story",
                 "jsdoctags": [
                     {
                         "name": "config",
@@ -790,7 +886,7 @@
                         "optional": true
                     }
                 ],
-                "returnType": "string[]",
+                "returnType": "literal type",
                 "jsdoctags": [
                     {
                         "name": "someEnum",
@@ -832,6 +928,36 @@
                 ]
             },
             {
+                "name": "formatHtml",
+                "file": "src/stories/util.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "node"
+                    },
+                    {
+                        "name": "level"
+                    }
+                ],
+                "returnType": "HTMLElement",
+                "jsdoctags": [
+                    {
+                        "name": "node",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "level",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
                 "name": "getEnumKeyByEnumValue",
                 "file": "src/stories/util.ts",
                 "ctype": "miscellaneous",
@@ -855,6 +981,27 @@
                     },
                     {
                         "name": "enumValue",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "prettifyHtml",
+                "file": "src/stories/util.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "description": "",
+                "args": [
+                    {
+                        "name": "html"
+                    }
+                ],
+                "returnType": "string",
+                "jsdoctags": [
+                    {
+                        "name": "html",
                         "tagName": {
                             "text": "param"
                         }
@@ -925,7 +1072,7 @@
                     "subtype": "variable",
                     "file": "src/app/card/card.component.stories.ts",
                     "type": "",
-                    "defaultValue": "Template.bind({})"
+                    "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'test',\r\n  codeSnippet: 'test'\r\n})"
                 },
                 {
                     "name": "CircleImage",
@@ -933,7 +1080,7 @@
                     "subtype": "variable",
                     "file": "src/app/card/card.component.stories.ts",
                     "type": "",
-                    "defaultValue": "Template.bind({})"
+                    "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  codeSnippet: ''\r\n})"
                 },
                 {
                     "name": "Normal",
@@ -941,7 +1088,7 @@
                     "subtype": "variable",
                     "file": "src/app/card/card.component.stories.ts",
                     "type": "",
-                    "defaultValue": "Template.bind({})"
+                    "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'test',\r\n  codeSnippet: 'test'\r\n})"
                 },
                 {
                     "name": "RectangleImage",
@@ -949,7 +1096,7 @@
                     "subtype": "variable",
                     "file": "src/app/card/card.component.stories.ts",
                     "type": "",
-                    "defaultValue": "Template.bind({})"
+                    "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'This is some example **text**.',\r\n  codeSnippet: `\r\n  <app-card\r\n  title=\"Rectangle Image\"\r\n  size=\"CardSize.Big\"\r\n  [isCircleImage]=\"false\"\r\n  (cardClicked)=\"cardClicked($event)\"\r\n>Lorem ipsum dolor sit</app-card>\r\n`\r\n})"
                 },
                 {
                     "name": "Small",
@@ -957,7 +1104,7 @@
                     "subtype": "variable",
                     "file": "src/app/card/card.component.stories.ts",
                     "type": "",
-                    "defaultValue": "Template.bind({})"
+                    "defaultValue": "createStoryWithConfig({\r\n  template: Template,\r\n  storyDescription: 'test',\r\n  codeSnippet: 'test'\r\n})"
                 },
                 {
                     "name": "Template",
@@ -965,7 +1112,7 @@
                     "subtype": "variable",
                     "file": "src/app/card/card.component.stories.ts",
                     "type": "Story<CardComponent>",
-                    "defaultValue": "(args: CardComponent) => ({\r\n    template: `\r\n        <app-card\r\n            [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">\r\n            {{content}}\r\n        </app-card>\r\n    `,\r\n    props: args,\r\n})"
+                    "defaultValue": "createStoryTemplate<CardComponent>({\r\n  htmlTemplate: `<app-card [title]=\"title\" [size]=\"size\" [isCircleImage]=\"isCircleImage\">{{content}}</app-card>`\r\n})"
                 }
             ],
             "src/app/button/button.component.stories.ts": [
@@ -1035,16 +1182,6 @@
                     "type": "literal type"
                 }
             ],
-            "src/environments/environment.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.ts",
-                    "type": "object",
-                    "defaultValue": "{\n  production: false\n}"
-                }
-            ],
             "src/environments/environment.prod.ts": [
                 {
                     "name": "environment",
@@ -1052,7 +1189,17 @@
                     "subtype": "variable",
                     "file": "src/environments/environment.prod.ts",
                     "type": "object",
-                    "defaultValue": "{\n  production: true\n}"
+                    "defaultValue": "{\r\n  production: true\r\n}"
+                }
+            ],
+            "src/environments/environment.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.ts",
+                    "type": "object",
+                    "defaultValue": "{\r\n  production: false\r\n}"
                 }
             ]
         },
@@ -1092,6 +1239,50 @@
                         }
                     ],
                     "returnType": "Meta",
+                    "jsdoctags": [
+                        {
+                            "name": "config",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "createStoryTemplate",
+                    "file": "src/stories/util.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "config",
+                            "optional": true
+                        }
+                    ],
+                    "returnType": "Story<T>",
+                    "jsdoctags": [
+                        {
+                            "name": "config",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "createStoryWithConfig",
+                    "file": "src/stories/util.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "config"
+                        }
+                    ],
+                    "returnType": "Story",
                     "jsdoctags": [
                         {
                             "name": "config",
@@ -1158,7 +1349,7 @@
                             "optional": true
                         }
                     ],
-                    "returnType": "string[]",
+                    "returnType": "literal type",
                     "jsdoctags": [
                         {
                             "name": "someEnum",
@@ -1200,6 +1391,36 @@
                     ]
                 },
                 {
+                    "name": "formatHtml",
+                    "file": "src/stories/util.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "node"
+                        },
+                        {
+                            "name": "level"
+                        }
+                    ],
+                    "returnType": "HTMLElement",
+                    "jsdoctags": [
+                        {
+                            "name": "node",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "level",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
                     "name": "getEnumKeyByEnumValue",
                     "file": "src/stories/util.ts",
                     "ctype": "miscellaneous",
@@ -1223,6 +1444,27 @@
                         },
                         {
                             "name": "enumValue",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "prettifyHtml",
+                    "file": "src/stories/util.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "html"
+                        }
+                    ],
+                    "returnType": "string",
+                    "jsdoctags": [
+                        {
+                            "name": "html",
                             "tagName": {
                                 "text": "param"
                             }
@@ -1295,7 +1537,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 6,
+        "count": 8,
         "status": "low",
         "files": [
             {
@@ -1512,9 +1754,45 @@
             },
             {
                 "filePath": "src/stories/util.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "StoryConfig",
+                "coveragePercent": 75,
+                "coverageCount": "3/4",
+                "status": "good"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "TemplateConfig",
+                "coveragePercent": 50,
+                "coverageCount": "1/2",
+                "status": "medium"
+            },
+            {
+                "filePath": "src/stories/util.ts",
                 "type": "function",
                 "linksubtype": "function",
                 "name": "componentStoriesSetup",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "createStoryTemplate",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "createStoryWithConfig",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -1550,7 +1828,25 @@
                 "filePath": "src/stories/util.ts",
                 "type": "function",
                 "linksubtype": "function",
+                "name": "formatHtml",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "function",
+                "linksubtype": "function",
                 "name": "getEnumKeyByEnumValue",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/util.ts",
+                "type": "function",
+                "linksubtype": "function",
+                "name": "prettifyHtml",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
