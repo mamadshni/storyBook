@@ -1,7 +1,7 @@
 import { CardComponent, CardSize } from './card.component';
 import { Story } from '@storybook/angular';
 import { ButtonComponent } from '../button/button.component';
-import { componentStoriesSetup, createStoryTemplate, createStoryWithConfig, enumMemberAsLabel, enumMembersAsLabels, enumValues } from 'src/stories/util';
+import { componentStoriesSetup, createStoryTemplate, createStoryWithConfig, getSettingsForPropertyUsingEnum } from 'src/stories/util';
 
 
 export default componentStoriesSetup({
@@ -29,15 +29,12 @@ export default componentStoriesSetup({
       defaultValue: 'false',
       control: 'boolean'
     },
-    {
-      name: 'size',
-      type: 'CardSize',
-      defaultValue: enumMemberAsLabel(CardSize, CardSize.Big, 'CardSize'),
-      category: 'inputs',
-      options: enumValues(CardSize),
-      labels: enumMembersAsLabels(CardSize, 'CardSize'),
-      control: 'radio',
-    },
+    getSettingsForPropertyUsingEnum({
+      propertyName: 'size',
+      enumUsed: CardSize,
+      defaultValue: CardSize.Big,
+      enumName: 'CardSize'
+    }),
     {
       name: 'onClick',
       disable: true

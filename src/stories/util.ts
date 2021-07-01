@@ -1,4 +1,5 @@
 import { Meta, moduleMetadata, ArgTypes, Story } from '@storybook/angular';
+import { Local } from 'protractor/built/driverProviders';
 
 export type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '	inline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';
 
@@ -137,7 +138,7 @@ export function createStoryWithConfig(config: StoryConfig): Story {
                 story: config.storyDescription,
             },
             source: {
-                code: config.codeSnippet? prettifyHtml(config.codeSnippet) : ''
+                code: config.codeSnippet ? prettifyHtml(config.codeSnippet) : ''
             }
         }
     };
@@ -157,7 +158,22 @@ export function enumMembersAsLabels(someEnum: any, enumName?: string): { [key: s
         }, {});
 }
 
+export function getSettingsForPropertyUsingEnum<T extends { [index: string]: string | number }>(
+    params: {propertyName: string, enumUsed: T, defaultValue: string | number, enumName?: string}
+    ): PropertyConfig {
+    const {propertyName, enumName, enumUsed, defaultValue} = params;
+    const config: PropertyConfig = {
+        name: propertyName,
+        type: enumName,
+        defaultValue: enumMemberAsLabel(enumUsed, defaultValue, enumName).toString(),
+        category: 'inputs',
+        options: enumValues(enumUsed),
+        labels: enumMembersAsLabels(enumUsed, enumName),
+        control: 'radio'
+    };
 
+    return config;
+}
 
 // tslint:disable-next-line:max-line-length
 export function enumMemberAsLabel<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {
@@ -171,9 +187,8 @@ function getEnumKeyByEnumValue<T extends { [index: string]: string | number }>(m
     return keys.length > 0 ? keys[0] : null;
 }
 
-export function enumValues(someEnum: any): string[] {
+export function enumValues<T extends { [index: string]: string | number }>(someEnum: T): string[] {
     // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?
-
     return Object.values(someEnum).filter(value => isNaN(+value)) as string[];
 }
 
