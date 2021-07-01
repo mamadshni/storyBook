@@ -129,19 +129,19 @@ export function createStoryTemplate<T>(config?: TemplateConfig): Story<T> {
 
 
 export function createStoryWithConfig(config: StoryConfig): Story {
-    const reference: Story = config.template.bind({});
+    const template: Story = config.template.bind({});
 
-    reference.parameters = {
+    template.parameters = {
         docs: {
             description: {
                 story: config.storyDescription,
             },
             source: {
-                code: prettifyHtml(config.codeSnippet)
+                code: config.codeSnippet? prettifyHtml(config.codeSnippet) : ''
             }
         }
     };
-    return reference;
+    return template;
 }
 
 
@@ -182,7 +182,7 @@ export function prettifyHtml(html: string): string {
     div.innerHTML = html.trim()
         .replace(/^\s+|\s+$/gm, '')
         .split('\n')
-        .map(str => !str.startsWith('<')? ' ' + str : str)//we could lose syntax highlighting if some char that is not an opening tag is on its own line in original text (it would then stick together with the tag name for example), so we add white space 
+        .map(str => !str.startsWith('<') ? ' ' + str : str)//we could lose syntax highlighting if some char that is not an opening tag is on its own line in original text (it would then stick together with the tag name for example), so we add white space 
         .join('');
     return (formatHtml(div, 0).innerHTML).trim();
 }
