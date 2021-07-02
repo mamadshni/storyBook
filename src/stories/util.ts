@@ -1,4 +1,5 @@
 import { Meta, moduleMetadata, ArgTypes, Story } from '@storybook/angular';
+import { Local } from 'protractor/built/driverProviders';
 
 export type ControlType = 'array' | 'boolean' | 'number' | 'range' | 'object' | 'radio' | 'inline-radio' | 'check' | '	inline-check' | 'select' | 'multi-select' | 'text' | 'color' | 'date';
 
@@ -16,7 +17,7 @@ export interface PropertyConfig {
 
     control?: ControlType;
     options?: string[];
-    labels?: {[key: string]: string};
+    labels?: { [key: string]: string };
 
     minRange?: number;
     maxRange?: number;
@@ -56,17 +57,32 @@ export interface ComponentStoriesConfig {
 
 
 export interface StoryConfig {
+    /**
+     * A story template the new story should be based on
+     */
     template: Story;
 
-    codeSnippet ?: string;
-    storyDescription ?: string;
+    /**
+     * The HTML code snippet for the story - use only if the default code snippet is wrong! will be prettified automatically
+     */
+    codeSnippet?: string;
+
+    /**
+     * A description for the story; markdown is supported.
+     */
+    storyDescription?: string;
+}
+
+export interface TemplateConfig {
+    /**
+     * HTML code to use by Story Book when creating the component (only necessary if content projection is used)
+     */
+    htmlTemplate?: string;
 }
 
 
 
-
 export function componentStoriesSetup(config: ComponentStoriesConfig): Meta {
-
     const argTypesObject: ArgTypes = {};
 
     config.properties.forEach((property: PropertyConfig) => {
@@ -102,41 +118,88 @@ export function componentStoriesSetup(config: ComponentStoriesConfig): Meta {
     } as Meta;
 }
 
+
+
+export function createStoryTemplate<T>(config?: TemplateConfig): Story<T> {
+    return (args: T) => ({
+        props: args,
+        template: config?.htmlTemplate,
+    });
+}
+
+
+
+export function createStoryWithConfig(config: StoryConfig): Story {
+    const template: Story = config.template.bind({});
+
+    template.parameters = {
+        docs: {
+            description: {
+                story: config.storyDescription,
+            },
+            source: {
+                code: config.codeSnippet ? prettifyHtml(config.codeSnippet) : ''
+            }
+        }
+    };
+    return template;
+}
+
+
+
 // https://stackoverflow.com/a/43091709/13727176
-export function enumMembersAsLabels(someEnum: any, enumName?: string): {[key: string]: string} {
+export function enumMembersAsLabels(someEnum: any, enumName?: string): { [key: string]: string } {
     // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?
     return Object.entries(someEnum)
         .filter(([key, value]) => isNaN(+key))
         .reduce((obj, [key, value]: [string, string]) => {
-            obj[value] = `${enumName ? `${enumName}.` : '' }${key}`;
+            obj[value] = `${enumName ? `${enumName}.` : ''}${key}`;
             return obj;
         }, {});
 }
 
+export function getSettingsForPropertyUsingEnum<T extends { [index: string]: string | number }>(
+    params: {propertyName: string, enumUsed: T, defaultValue: string | number, enumName?: string}
+    ): PropertyConfig {
+    const {propertyName, enumName, enumUsed, defaultValue} = params;
+    const config: PropertyConfig = {
+        name: propertyName,
+        type: enumName,
+        defaultValue: enumMemberAsLabel(enumUsed, defaultValue, enumName).toString(),
+        category: 'inputs',
+        options: enumValues(enumUsed),
+        labels: enumMembersAsLabels(enumUsed, enumName),
+        control: 'radio'
+    };
+
+    return config;
+}
+
 // tslint:disable-next-line:max-line-length
-export function enumMemberAsLabel <T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {
+export function enumMemberAsLabel<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number, enumName?: string): keyof T {
     const enumKey = getEnumKeyByEnumValue(myEnum, enumValue);
-    return `${enumName ? `${enumName}.` : '' }${enumKey}`;
+    return `${enumName ? `${enumName}.` : ''}${enumKey}`;
 }
 
 // https://stackoverflow.com/a/54297863/13727176
-function getEnumKeyByEnumValue<T extends {[index: string]: string | number}>(myEnum: T, enumValue: string | number): keyof T|null {
+function getEnumKeyByEnumValue<T extends { [index: string]: string | number }>(myEnum: T, enumValue: string | number): keyof T | null {
     const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
     return keys.length > 0 ? keys[0] : null;
 }
 
-export function enumValues(someEnum: any): string[] {
+export function enumValues<T extends { [index: string]: string | number }>(someEnum: T): string[] {
     // the filter() is for enums with number values -> for some reason they are stored as keys and values (both directions)?
-
     return Object.values(someEnum).filter(value => isNaN(+value)) as string[];
 }
 
 export function prettifyHtml(html: string): string {
-
     const div = document.createElement('div');
-    div.innerHTML = html.trim().replace(/^\s+|\s+$/gm, '').split('\n').join('');
-
-    return formatHtml(div, 0).innerHTML;
+    div.innerHTML = html.trim()
+        .replace(/^\s+|\s+$/gm, '')
+        .split('\n')
+        .map(str => !str.startsWith('<') ? ' ' + str : str)//we could lose syntax highlighting if some char that is not an opening tag is on its own line in original text (it would then stick together with the tag name for example), so we add white space 
+        .join('');
+    return (formatHtml(div, 0).innerHTML).trim();
 }
 
 
@@ -144,12 +207,12 @@ export function formatHtml(node: HTMLElement, level: number): HTMLElement {
 
     const indentBefore = new Array(level++ + 1).join('    ');
     const indentAfter = new Array(level - 1).join('    ');
-    let textNode;
+    let textNode: Text;
 
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < node.children.length; i++) {
 
-        textNode = document.createTextNode('\n' + indentBefore);
+        textNode = document.createTextNode(`\n${indentBefore}`);
         node.insertBefore(textNode, node.children[i]);
 
         formatHtml(node.children[i] as HTMLElement, level);
@@ -162,24 +225,3 @@ export function formatHtml(node: HTMLElement, level: number): HTMLElement {
 
     return node;
 }
-
-
-export function createStoryWithConfig(config: StoryConfig): Story {
-    const reference: Story = config.template.bind({});
-
-    reference.parameters = {
-        docs : {
-            description : {
-                story : config.storyDescription,
-            },
-            source : {
-                code: prettifyHtml(config.codeSnippet)
-            }
-        }
-    };
-    return reference;
-}
-
-
-
-
